@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Panduan Penggunaan MekaSmart Hub – Mulai dari sini, lima langkah terstruktur menuju kompetensi PLC.">
+    <title>Panduan – Mulai Dari Sini | MekaSmart Hub</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .guide-section {
+            padding: 80px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .step-guide {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 40px;
+            padding: 28px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .step-guide:hover {
+            border-color: rgba(0, 200, 255, 0.3);
+            transform: translateX(6px);
+        }
+
+        .step-guide-num {
+            font-size: 3rem;
+            font-weight: 900;
+            min-width: 60px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+        }
+
+        .step-guide-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .step-guide-content p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .step-guide::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            border-radius: 3px 0 0 3px;
+            background: linear-gradient(180deg, var(--accent-blue), var(--accent-cyan));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .step-guide:hover::before {
+            opacity: 1;
+        }
+
+        .faq-item {
+            margin-bottom: 12px;
+        }
+
+        .faq-q {
+            width: 100%;
+            padding: 16px 20px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            text-align: left;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-q:hover {
+            border-color: rgba(0, 200, 255, 0.3);
+        }
+
+        .faq-q.open {
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            border-color: var(--accent-blue);
+        }
+
+        .faq-a {
+            padding: 16px 20px;
+            border: 1px solid var(--accent-blue);
+            border-top: none;
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            display: none;
+            background: rgba(0, 200, 255, 0.03);
+        }
+
+        .faq-a.open {
+            display: block;
+        }
+
+        .faq-chevron {
+            font-size: 0.75rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-q.open .faq-chevron {
+            transform: rotate(180deg);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .contact-card {
+            text-align: center;
+            padding: 28px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+        }
+
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+
+        .contact-card h4 {
+            margin-bottom: 8px;
+        }
+
+        .contact-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media(max-width:768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">
+            <div class="nav-logo-icon">M</div>
+            <div class="nav-brand-text">Meka<span>Smart</span> Hub</div>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="../index.html" class="nav-link">Beranda</a></li>
+            <li><a href="asesmen.html" class="nav-link">Pintu Masuk</a></li>
+            <li><a href="ruang-belajar.html" class="nav-link">Ruang Belajar</a></li>
+            <li><a href="meka-lab.html" class="nav-link">Meka-Lab</a></li>
+            <li><a href="pusat-uji.html" class="nav-link">Pusat Uji</a></li>
+        </ul>
+        <a href="asesmen.html" class="nav-cta btn">Mulai Gratis</a>
+        <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </nav>
+
+    <section class="page-hero">
+        <div class="circuit-bg"></div>
+        <div class="page-hero-badge">🗺️ Panduan</div>
+        <h1>Mulai <span>Dari Sini</span></h1>
+        <p>Ikuti 5 langkah sederhana ini agar pengalaman belajar PLC-mu terstruktur, efektif, dan menyenangkan.</p>
+    </section>
+
+    <div class="guide-section">
+        <div class="section-badge" style="margin-bottom:32px">📋 5 Langkah Belajar</div>
+
+        <div class="step-guide">
+            <div class="step-guide-num">01</div>
+            <div class="step-guide-content">
+                <h3>🧠 Selesaikan Asesmen Bakat Minat</h3>
+                <p>Sebelum memulai belajar, pergi ke menu <strong>Pintu Masuk</strong> dan ikuti tes RIASEC & GATB
+                    singkat (25 pertanyaan, ±8 menit). Hasilnya akan memberikan profil bakatmu dan merekomendasikan
+                    jalur belajar yang paling sesuai – apakah kamu cocok sebagai PLC Programmer, Maintenance Engineer,
+                    atau HMI Designer.</p>
+                <a href="asesmen.html" class="btn btn-primary btn-sm">Mulai Asesmen →</a>
+            </div>
+        </div>
+
+        <div class="step-guide">
+            <div class="step-guide-num">02</div>
+            <div class="step-guide-content">
+                <h3>📚 Masuk ke Ruang Belajar</h3>
+                <p>Buka menu <strong>Ruang Belajar</strong> dan mulai dari <em>Modul 1: Pengenalan PLC & Sistem
+                        Otomasi</em>. Unduh file PDF materi, tonton video tutorial wiring HD, dan download Jobsheet
+                    praktikum untuk panduan langkah demi langkah. Selesaikan setiap modul secara berurutan untuk
+                    membangun fondasi yang kuat.</p>
+                <a href="ruang-belajar.html" class="btn btn-primary btn-sm">Buka Modul 1 →</a>
+            </div>
+        </div>
+
+        <div class="step-guide">
+            <div class="step-guide-num">03</div>
+            <div class="step-guide-content">
+                <h3>🏭 Coba Smart Factory di Meka-Lab</h3>
+                <p>Buka <strong>Meka-Lab</strong> dan pilih skenario sesuai levelmu. Gunakan editor Ladder Diagram untuk
+                    menulis program PLC-mu, lalu klik "Jalankan Simulasi" untuk melihat konveyor, sensor, dan robot arm
+                    bergerak mengikuti logika yang kamu buat. Jangan takut salah – ini adalah ruang eksperimen yang
+                    aman! Jika terjadi "System Crash", itu berarti ada yang perlu diperbaiki dari logikamu.</p>
+                <a href="meka-lab.html" class="btn btn-green btn-sm">Buka Meka-Lab →</a>
+            </div>
+        </div>
+
+        <div class="step-guide">
+            <div class="step-guide-num">04</div>
+            <div class="step-guide-content">
+                <h3>🤖 Tanya Meka-Bot Jika Bingung</h3>
+                <p>Temukan istilah yang tidak dimengerti? Program error tapi tidak tahu kenapa? Klik tombol
+                    <strong>🤖</strong> di pojok kanan bawah untuk membuka Meka-Bot. Kamu bisa menanyakan definisi
+                    istilah PLC, meminta penjelasan konsep, atau meminta Meka-Bot mencarikan modul yang relevan.
+                    Meka-Bot siap melayanimu 24 jam sehari, 7 hari seminggu.</p>
+                <button class="btn btn-outline btn-sm" onclick="openMekaBot()">Chat dengan Meka-Bot →</button>
+            </div>
+        </div>
+
+        <div class="step-guide">
+            <div class="step-guide-num">05</div>
+            <div class="step-guide-content">
+                <h3>🏆 Kerjakan Asesmen Ketercapaian</h3>
+                <p>Setelah menyelesaikan beberapa modul, pergi ke <strong>Pusat Uji</strong> dan kerjakan asesmen
+                    kompetensi bertingkat. Mulai dari Level Easy (15 soal, 20 menit), lanjut ke Medium, dan tantang
+                    dirimu di Level Hard. Setiap level yang kamu lulus menghasilkan sebuah <em>Badge Kompetensi
+                        Digital</em> yang bisa kamu tunjukkan kepada guru dan perusahaan!</p>
+                <a href="pusat-uji.html" class="btn btn-primary btn-sm">Ikuti Ujian →</a>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="section-badge" style="margin: 60px 0 24px">❓ FAQ – Pertanyaan Umum</div>
+        <div id="faqContainer">
+            <!-- Generated by JS -->
+        </div>
+
+        <!-- Contact -->
+        <div class="section-badge" style="margin: 60px 0 24px">📞 Butuh Bantuan?</div>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">🤖</div>
+                <h4>Meka-Bot</h4>
+                <p>Tanya langsung via chatbot untuk bantuan instan seputar PLC dan navigasi web</p>
+                <button class="btn btn-outline btn-sm" style="margin-top:14px" onclick="openMekaBot()">Buka
+                    Chat</button>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">📧</div>
+                <h4>Email Guru</h4>
+                <p>Kirim pertanyaan teknis ke guru pembimbing melalui email resmi sekolah</p>
+                <a href="mailto:guru@smk.sch.id" class="btn btn-outline btn-sm" style="margin-top:14px">Kirim Email</a>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon">💬</div>
+                <h4>WhatsApp Group</h4>
+                <p>Bergabung ke grup WhatsApp siswa untuk diskusi dan saling membantu sesama teman</p>
+                <a href="#" class="btn btn-outline btn-sm" style="margin-top:14px">Gabung Grup</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="nav-brand">
+                    <div class="nav-logo-icon">M</div>
+                    <div class="nav-brand-text">Meka<span>Smart</span> Hub</div>
+                </div>
+                <p>Platform edukasi PLC & Smart Factory terdepan untuk siswa SMK.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Menu</h4>
+                <ul>
+                    <li><a href="../index.html">Beranda</a></li>
+                    <li><a href="asesmen.html">Pintu Masuk</a></li>
+                    <li><a href="ruang-belajar.html">Ruang Belajar</a></li>
+                    <li><a href="meka-lab.html">Meka-Lab</a></li>
+                    <li><a href="pusat-uji.html">Pusat Uji</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Dukungan</h4>
+                <ul>
+                    <li><a href="panduan.html">Panduan</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <ul>
+                    <li><a href="#">Email Guru</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom"><span>© 2025 <span>MekaSmart Hub</span></span></div>
+    </footer>
+
+    <button class="mekabot-fab" id="mekabotFab" onclick="toggleMekaBot()" title="Meka-Bot">🤖</button>
+    <div class="mekabot-window" id="mekabotWindow">
+        <div class="mekabot-header">
+            <div class="mekabot-avatar">🤖</div>
+            <div class="mekabot-info">
+                <h4>Meka-Bot</h4><span>● Online 24/7</span>
+            </div>
+            <button class="mekabot-close" onclick="toggleMekaBot()">✕</button>
+        </div>
+        <div class="mekabot-messages" id="mekabotMessages"></div>
+        <div class="mekabot-suggestions" id="mekabotSuggestions"></div>
+        <div class="mekabot-input-area">
+            <textarea class="mekabot-input" id="mekabotInput" placeholder="Tanya sesuatu..." rows="1"></textarea>
+            <button class="mekabot-send" id="mekabotSend">➤</button>
+        </div>
+    </div>
+    <div class="toast" id="toast"><span class="toast-icon">✅</span><span id="toastMsg"></span></div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/mekabot.js"></script>
+    <script>
+        // FAQ Data
+        const FAQ = [
+            { q: 'Apakah platform ini gratis?', a: 'Ya! MekaSmart Hub 100% gratis untuk siswa SMK. Semua modul, video tutorial, simulasi, dan asesmen dapat diakses tanpa biaya.' },
+            { q: 'Apakah saya perlu install software PLC khusus?', a: 'Tidak perlu! Semua fitur berjalan langsung di browser web. Tidak perlu install software PLC apa pun di komputer kamu.' },
+            { q: 'Progress belajar saya tersimpan di mana?', a: 'Progress tersimpan di browser kamu menggunakan Local Storage. Pastikan tidak membersihkan data browser agar progress-mu tidak hilang. Di masa depan, akan ada fitur akun untuk menyimpan progress ke cloud.' },
+            { q: 'Apakah Meka-Bot bisa menganalisis program PLC saya?', a: 'Meka-Bot saat ini bisa menjawab pertanyaan tentang konsep PLC, membantu navigasi web, dan memberikan saran troubleshooting. Fitur analisis screenshot Ladder Diagram sedang dalam pengembangan.' },
+            { q: 'Bagaimana cara mendapatkan Badge Kompetensi?', a: 'Badge diberikan otomatis setelah kamu lulus Asesmen Ketercapaian di Pusat Uji dengan nilai minimal 70. Setiap level (Easy, Medium, Hard) memiliki badge tersendiri.' },
+            { q: 'Sensor dan brand PLC apa yang dipelajari di sini?', a: 'Kurikulum kompatibel dengan PLC dari brand utama industri: Siemens SIMATIC, Mitsubishi MELSEC, Omron Sysmac, Allen-Bradley, dan Schneider Electric. Konsep dasarnya universal dan bisa diterapkan di semua brand.' },
+            { q: 'Berapa lama waktu yang dibutuhkan untuk menyelesaikan semua modul?', a: 'Dengan belajar 2 jam per hari, rata-rata siswa menyelesaikan semua 12 modul dalam 4-6 minggu. Kecepatan belajar disesuaikan dengan kemampuan masing-masing.' },
+        ];
+
+        const container = document.getElementById('faqContainer');
+        FAQ.forEach((f, i) => {
+            const item = document.createElement('div');
+            item.className = 'faq-item';
+            item.innerHTML = `
+      <button class="faq-q" id="fq-${i}" onclick="toggleFaq(${i})">
+        ${f.q}<span class="faq-chevron">▼</span>
+      </button>
+      <div class="faq-a" id="fa-${i}">${f.a}</div>
+    `;
+            container.appendChild(item);
+        });
+
+        function toggleFaq(i) {
+            const btn = document.getElementById('fq-' + i);
+            const ans = document.getElementById('fa-' + i);
+            btn.classList.toggle('open');
+            ans.classList.toggle('open');
+        }
+    </script>
+</body>
+
+</html>

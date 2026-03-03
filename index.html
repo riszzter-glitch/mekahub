@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MekaSmart Hub – Platform digital pembelajaran PLC & Smart Factory untuk siswa SMK, dari potensi ke industri.">
+  <title>MekaSmart Hub | Dari Potensi ke Industri</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-brand">
+    <div class="nav-logo-icon">M</div>
+    <div class="nav-brand-text">Meka<span>Smart</span> Hub</div>
+  </div>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="index.html" class="nav-link active">Beranda</a></li>
+    <li><a href="pages/asesmen.html" class="nav-link">Pintu Masuk</a></li>
+    <li><a href="pages/ruang-belajar.html" class="nav-link">Ruang Belajar</a></li>
+    <li><a href="pages/meka-lab.html" class="nav-link">Meka-Lab</a></li>
+    <li><a href="pages/pusat-uji.html" class="nav-link">Pusat Uji</a></li>
+  </ul>
+  <a href="pages/asesmen.html" class="nav-cta btn">Mulai Gratis →</a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="circuit-bg"></div>
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <canvas id="particleCanvas"></canvas>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Platform Edukasi PLC & Smart Factory #1 untuk SMK
+    </div>
+    <h1 class="hero-title">
+      Dari <span class="hero-accent">Potensi</span><br>
+      ke <span class="hero-accent-green">Industri</span>
+    </h1>
+    <p class="hero-desc">
+      Kenali bakat, kuasai PLC, dan rasakan pengalaman Smart Factory virtual — 
+      semua dalam satu platform pembelajaran yang dirancang khusus untuk siswa SMK.
+    </p>
+    <div class="hero-actions">
+      <a href="pages/asesmen.html" class="btn btn-primary btn-lg">
+        🚀 Mulai Asesmen Bakat
+      </a>
+      <a href="pages/meka-lab.html" class="btn btn-outline btn-lg">
+        🏭 Coba Smart Factory
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="stat-num" data-target="1200">0</span>+
+        <span class="stat-label">Siswa Aktif</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <span class="stat-num" data-target="48">0</span>
+        <span class="stat-label">Modul Ajar</span>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div class="hero-stat">
+        <span class="stat-num" data-target="96">0</span>%
+        <span class="stat-label">Tingkat Kelulusan</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="factory-preview animate-float">
+      <div class="factory-screen">
+        <div class="factory-header">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+          <span class="factory-title">Smart Factory Simulator v2.0</span>
+        </div>
+        <div class="factory-body">
+          <div class="plc-unit">
+            <div class="plc-label">PLC Unit</div>
+            <div class="plc-lights">
+              <div class="plc-light on"></div>
+              <div class="plc-light on"></div>
+              <div class="plc-light blink"></div>
+              <div class="plc-light"></div>
+            </div>
+            <div class="plc-code">
+              <div class="code-line"><span class="kw">LOAD</span> <span class="var">I0.0</span></div>
+              <div class="code-line"><span class="kw">AND</span>  <span class="var">I0.1</span></div>
+              <div class="code-line"><span class="kw">OUT</span>  <span class="var">Q0.0</span></div>
+            </div>
+          </div>
+          <div class="conveyor-area">
+            <div class="conveyor-track">
+              <div class="bottle b1"></div>
+              <div class="bottle b2 red"></div>
+              <div class="bottle b3 blue"></div>
+            </div>
+            <div class="sensor-beam"></div>
+            <div class="robot-arm">
+              <div class="arm-segment seg1"></div>
+              <div class="arm-segment seg2"></div>
+              <div class="arm-grip"></div>
+            </div>
+          </div>
+          <div class="status-panel">
+            <div class="status-item">
+              <span class="status-dot active"></span>
+              <span>Conveyor: RUN</span>
+            </div>
+            <div class="status-item">
+              <span class="status-dot active"></span>
+              <span>Sensor: ACTIVE</span>
+            </div>
+            <div class="status-item">
+              <span class="status-dot warning"></span>
+              <span>Robot: IDLE</span>
+            </div>
+            <div class="status-item">
+              <span class="status-dot"></span>
+              <span>Alarm: OFF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WORKFLOW SECTION ===== -->
+<section class="section workflow-section" id="workflow">
+  <div class="section-header">
+    <div class="section-badge">🗺️ Alur Belajar</div>
+    <h2 class="section-title">Jalur <span>Terstruktur</span> Menuju Kompetensi</h2>
+    <p class="section-subtitle">Lima langkah sistematis yang membawamu dari nol hingga siap industri.</p>
+  </div>
+  <div class="workflow-steps">
+    <div class="workflow-step" style="--step-color:#00c8ff">
+      <div class="step-number">01</div>
+      <div class="step-icon">🧠</div>
+      <h3>Asesmen Bakat</h3>
+      <p>Temukan apakah kamu tipe Programmer, Maintenance Engineer, atau HMI Designer lewat tes RIASEC & GATB.</p>
+      <a href="pages/asesmen.html" class="step-link">Mulai Tes →</a>
+    </div>
+    <div class="workflow-arrow">⚡</div>
+    <div class="workflow-step" style="--step-color:#00ffd5">
+      <div class="step-number">02</div>
+      <div class="step-icon">📚</div>
+      <h3>Materi PLC</h3>
+      <p>Unduh modul PDF, tonton video tutorial wiring, dan pelajari Ladder Diagram dari dasar hingga mahir.</p>
+      <a href="pages/ruang-belajar.html" class="step-link">Lihat Modul →</a>
+    </div>
+    <div class="workflow-arrow">⚡</div>
+    <div class="workflow-step" style="--step-color:#39ff14">
+      <div class="step-number">03</div>
+      <div class="step-icon">🏭</div>
+      <h3>Simulasi Logika</h3>
+      <p>Uji program PLC-mu di Smart Factory virtual. Robot arm, konveyor, dan sensor siap kamu kendalikan.</p>
+      <a href="pages/meka-lab.html" class="step-link">Buka Lab →</a>
+    </div>
+    <div class="workflow-arrow">⚡</div>
+    <div class="workflow-step" style="--step-color:#a855f7">
+      <div class="step-number">04</div>
+      <div class="step-icon">🤖</div>
+      <h3>Tanya Meka-Bot</h3>
+      <p>Temui istilah sulit atau error? Meka-Bot siap membantu 24/7 dengan analisis kode Ladder Diagram-mu.</p>
+      <a href="#" class="step-link" onclick="openMekaBot()">Chat Sekarang →</a>
+    </div>
+    <div class="workflow-arrow">⚡</div>
+    <div class="workflow-step" style="--step-color:#ff6b00">
+      <div class="step-number">05</div>
+      <div class="step-icon">🏆</div>
+      <h3>Evaluasi Akhir</h3>
+      <p>Kerjakan asesmen kompetensi bertingkat. Lulus? Kamu berhak mendapatkan Badge Kompetensi Digital!</p>
+      <a href="pages/pusat-uji.html" class="step-link">Ikut Ujian →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FEATURES SECTION ===== -->
+<section class="section features-section" id="features">
+  <div class="section-header">
+    <div class="section-badge">✨ Fitur Unggulan</div>
+    <h2 class="section-title">Semua yang Kamu <span>Butuhkan</span></h2>
+    <p class="section-subtitle">Platform lengkap dengan teknologi terkini untuk pengalaman belajar yang tak terlupakan.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card glass-card" id="feat-asesmen">
+      <div class="feature-icon" style="--icon-color:#00c8ff">🎯</div>
+      <span class="tag tag-blue">Asesmen Bakat</span>
+      <h3>Profil RIASEC & GATB</h3>
+      <p>Tes 25 soal singkat untuk memetakan bakat dan minatmu. Output berupa profil lengkap dengan jalur belajar yang dipersonalisasi.</p>
+      <ul class="feature-list">
+        <li>✓ Analisis tipe Realistic-Investigative</li>
+        <li>✓ Rekomendasi jalur belajar personal</li>
+        <li>✓ Laporan PDF bisa diunduh</li>
+      </ul>
+      <a href="pages/asesmen.html" class="btn btn-outline btn-sm">Coba Sekarang</a>
+    </div>
+    <div class="feature-card glass-card" id="feat-modul">
+      <div class="feature-icon" style="--icon-color:#00ffd5">📖</div>
+      <span class="tag tag-blue">Ruang Belajar</span>
+      <h3>Modul Ajar Digital</h3>
+      <p>Konten terstruktur per pertemuan: PDF materi, video wiring step-by-step, dan jobsheet standar industri yang bisa diunduh.</p>
+      <ul class="feature-list">
+        <li>✓ Progress tracking otomatis</li>
+        <li>✓ Video tutorial HD</li>
+        <li>✓ Jobsheet standar industri</li>
+      </ul>
+      <a href="pages/ruang-belajar.html" class="btn btn-outline btn-sm">Buka Modul</a>
+    </div>
+    <div class="feature-card glass-card featured" id="feat-lab">
+      <div class="feature-badge">🔥 Fitur Utama</div>
+      <div class="feature-icon" style="--icon-color:#39ff14">🏭</div>
+      <span class="tag tag-green">Meka-Lab</span>
+      <h3>Smart Factory Simulator</h3>
+      <p>Simulasi pabrik virtual interaktif: konveyor berjalan, sensor warna aktif, dan robot arm yang dikendalikan logika PLC-mu sendiri.</p>
+      <ul class="feature-list">
+        <li>✓ Editor Ladder Diagram real-time</li>
+        <li>✓ Feedback "System Crash" & error</li>
+        <li>✓ Skenario industri nyata</li>
+      </ul>
+      <a href="pages/meka-lab.html" class="btn btn-green btn-sm">Buka Lab</a>
+    </div>
+    <div class="feature-card glass-card" id="feat-bot">
+      <div class="feature-icon" style="--icon-color:#a855f7">🤖</div>
+      <span class="tag tag-purple">Meka-Bot AI</span>
+      <h3>Asisten Cerdas 24/7</h3>
+      <p>Chatbot AI yang bisa membaca screenshot Ladder Diagram, menemukan letak kesalahan, dan memberikan solusi instan.</p>
+      <ul class="feature-list">
+        <li>✓ Analisis kode PLC otomatis</li>
+        <li>✓ Navigasi konten cerdas</li>
+        <li>✓ Respons dalam Bahasa Indonesia</li>
+      </ul>
+      <button class="btn btn-outline btn-sm" onclick="openMekaBot()">Chat dengan Meka-Bot</button>
+    </div>
+    <div class="feature-card glass-card" id="feat-uji">
+      <div class="feature-icon" style="--icon-color:#ff6b00">📝</div>
+      <span class="tag tag-orange">Pusat Uji</span>
+      <h3>Asesmen Kompetensi</h3>
+      <p>Ujian digital bertingkat (Easy → Medium → Hard) dengan penilaian otomatis, pembahasan langsung, dan badge kompetensi.</p>
+      <ul class="feature-list">
+        <li>✓ 3 level kesulitan</li>
+        <li>✓ Penilaian & pembahasan otomatis</li>
+        <li>✓ Badge kompetensi digital</li>
+      </ul>
+      <a href="pages/pusat-uji.html" class="btn btn-outline btn-sm">Ikut Ujian</a>
+    </div>
+    <div class="feature-card glass-card" id="feat-guide">
+      <div class="feature-icon" style="--icon-color:#ffd700">🗺️</div>
+      <span class="tag tag-orange">Panduan</span>
+      <h3>Mulai Dari Sini</h3>
+      <p>Halaman panduan langkah demi langkah agar kamu tidak bingung dan langsung produktif dari hari pertama.</p>
+      <ul class="feature-list">
+        <li>✓ 5 langkah terstruktur</li>
+        <li>✓ Video walkthrough</li>
+        <li>✓ FAQ lengkap</li>
+      </ul>
+      <a href="pages/panduan.html" class="btn btn-outline btn-sm">Lihat Panduan</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INDUSTRY SECTION ===== -->
+<section class="section industry-section">
+  <div class="industry-content">
+    <div class="section-badge" style="text-align:left">🏭 Relevansi Industri</div>
+    <h2 class="section-title" style="text-align:left">Dipelajari di Sini, <br><span>Dipakai di Industri</span></h2>
+    <p style="color:var(--text-secondary);margin-bottom:32px">Kurikulum kami selaras dengan standar kompetensi industri otomasi yang digunakan oleh perusahaan manufaktur terkemuka.</p>
+    <div class="industry-brands">
+      <div class="brand-chip">⚙️ Siemens SIMATIC</div>
+      <div class="brand-chip">⚙️ Mitsubishi MELSEC</div>
+      <div class="brand-chip">⚙️ Omron Sysmac</div>
+      <div class="brand-chip">⚙️ Allen-Bradley</div>
+      <div class="brand-chip">⚙️ Schneider Electric</div>
+    </div>
+    <a href="pages/ruang-belajar.html" class="btn btn-primary" style="margin-top:32px">Mulai Belajar Sekarang →</a>
+  </div>
+  <div class="industry-visual">
+    <div class="industry-card glass-card">
+      <div class="industry-metric">
+        <span class="metric-label">Tingkat Penyerapan Kerja</span>
+        <span class="metric-val">87%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:87%"></div></div>
+    </div>
+    <div class="industry-card glass-card">
+      <div class="industry-metric">
+        <span class="metric-label">Relevansi dengan SKKNI</span>
+        <span class="metric-val">100%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+    </div>
+    <div class="industry-card glass-card">
+      <div class="industry-metric">
+        <span class="metric-label">Kepuasan Siswa</span>
+        <span class="metric-val">4.9/5</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:98%"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA SECTION ===== -->
+<section class="cta-section">
+  <div class="circuit-bg"></div>
+  <div class="cta-glow"></div>
+  <div class="cta-content">
+    <h2>Siap Memulai Perjalananmu?</h2>
+    <p>Bergabunglah dengan lebih dari 1.200 siswa yang sudah menguasai PLC dan Smart Factory.</p>
+    <div class="cta-actions">
+      <a href="pages/asesmen.html" class="btn btn-primary btn-lg">🧠 Mulai Asesmen Gratis</a>
+      <a href="pages/panduan.html" class="btn btn-outline btn-lg">📖 Baca Panduan Dulu</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="nav-brand">
+        <div class="nav-logo-icon">M</div>
+        <div class="nav-brand-text">Meka<span>Smart</span> Hub</div>
+      </div>
+      <p>Platform edukasi PLC & Smart Factory terdepan untuk siswa SMK. Dari potensi ke industri, bersama kami.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Menu Utama</h4>
+      <ul>
+        <li><a href="pages/asesmen.html">Pintu Masuk</a></li>
+        <li><a href="pages/ruang-belajar.html">Ruang Belajar</a></li>
+        <li><a href="pages/meka-lab.html">Meka-Lab</a></li>
+        <li><a href="pages/pusat-uji.html">Pusat Uji</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Materi</h4>
+      <ul>
+        <li><a href="#">Dasar PLC</a></li>
+        <li><a href="#">Ladder Diagram</a></li>
+        <li><a href="#">HMI & SCADA</a></li>
+        <li><a href="#">Pneumatik</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Dukungan</h4>
+      <ul>
+        <li><a href="pages/panduan.html">Panduan Pengguna</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Kontak Guru</a></li>
+        <li><a href="#">Lapor Bug</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 <span>MekaSmart Hub</span>. Dibuat dengan ❤️ untuk SMK Indonesia.</span>
+    <span>Platform Edukasi Otomasi Industri</span>
+  </div>
+</footer>
+
+<!-- ===== MEKA-BOT ===== -->
+<button class="mekabot-fab" id="mekabotFab" onclick="toggleMekaBot()" title="Chat dengan Meka-Bot">🤖</button>
+<div class="mekabot-window" id="mekabotWindow">
+  <div class="mekabot-header">
+    <div class="mekabot-avatar">🤖</div>
+    <div class="mekabot-info">
+      <h4>Meka-Bot</h4>
+      <span>● Online 24/7</span>
+    </div>
+    <button class="mekabot-close" onclick="toggleMekaBot()">✕</button>
+  </div>
+  <div class="mekabot-messages" id="mekabotMessages"></div>
+  <div class="mekabot-suggestions" id="mekabotSuggestions"></div>
+  <div class="mekabot-input-area">
+    <textarea class="mekabot-input" id="mekabotInput" placeholder="Tanya sesuatu..." rows="1"></textarea>
+    <button class="mekabot-send" id="mekabotSend">➤</button>
+  </div>
+</div>
+<div class="toast" id="toast"><span class="toast-icon">✅</span><span id="toastMsg"></span></div>
+
+<script src="js/main.js"></script>
+<script src="js/mekabot.js"></script>
+<script src="js/particles.js"></script>
+</body>
+</html>

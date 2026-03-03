@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Meka-Lab Smart Factory Simulator – Uji logika PLC Ladder Diagram pada pabrik virtual interaktif di MekaSmart Hub.">
+    <title>Meka-Lab – Smart Factory Simulator | MekaSmart Hub</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/meka-lab.css">
+</head>
+
+<body>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">
+            <div class="nav-logo-icon">M</div>
+            <div class="nav-brand-text">Meka<span>Smart</span> Hub</div>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+            <li><a href="../index.html" class="nav-link">Beranda</a></li>
+            <li><a href="asesmen.html" class="nav-link">Pintu Masuk</a></li>
+            <li><a href="ruang-belajar.html" class="nav-link">Ruang Belajar</a></li>
+            <li><a href="meka-lab.html" class="nav-link active">Meka-Lab</a></li>
+            <li><a href="pusat-uji.html" class="nav-link">Pusat Uji</a></li>
+        </ul>
+        <a href="asesmen.html" class="nav-cta btn">Mulai Gratis</a>
+        <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+    </nav>
+
+    <!-- LAB HEADER -->
+    <div class="lab-header">
+        <div class="lab-title-area">
+            <div class="page-hero-badge">🏭 Meka-Lab</div>
+            <h1>Smart <span>Factory</span> Simulator</h1>
+            <p>Uji logika Ladder Diagram PLC-mu pada pabrik virtual yang interaktif.</p>
+        </div>
+        <div class="lab-status-bar">
+            <div class="lab-status-item" id="simStatus">
+                <span class="status-dot active"></span> Simulator: READY
+            </div>
+            <div class="lab-status-item" id="cycleCount">
+                🔄 Siklus: <span id="cycleNum">0</span>
+            </div>
+            <div class="lab-status-item" id="errorStatus">
+                ⚠️ Error: <span id="errorNum">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN LAB INTERFACE -->
+    <div class="lab-container">
+
+        <!-- LEFT: LADDER EDITOR -->
+        <div class="lab-panel lab-editor">
+            <div class="panel-header">
+                <span class="panel-title">📝 Ladder Diagram Editor</span>
+                <div class="panel-controls">
+                    <button class="panel-btn" id="clearCode" title="Clear">🗑️</button>
+                    <button class="panel-btn" id="loadTemplate" title="Load Template">📋</button>
+                </div>
+            </div>
+            <div class="scenario-select">
+                <label>Skenario:</label>
+                <select id="scenarioSelect">
+                    <option value="basic">Dasar – Kontrol Motor ON/OFF</option>
+                    <option value="conveyor">Menengah – Konveyor Otomatis</option>
+                    <option value="sorting">Lanjut – Sorting Warna Botol</option>
+                    <option value="interlock">Expert – Interlock Safety System</option>
+                </select>
+            </div>
+            <div class="ladder-toolbar">
+                <button class="ladder-btn" data-insert="NO" title="Normally Open Contact">⊣⊢ NO</button>
+                <button class="ladder-btn" data-insert="NC" title="Normally Closed Contact">⊣/⊢ NC</button>
+                <button class="ladder-btn" data-insert="COIL" title="Output Coil">( ) Coil</button>
+                <button class="ladder-btn" data-insert="TON" title="Timer On-Delay">⏱ TON</button>
+                <button class="ladder-btn" data-insert="CTU" title="Counter Up">🔢 CTU</button>
+                <button class="ladder-btn" data-insert="MOV" title="Move">↔ MOV</button>
+                <button class="ladder-btn" data-insert="CMP" title="Compare">= CMP</button>
+            </div>
+            <div class="ladder-canvas-wrapper">
+                <canvas id="ladderCanvas" width="460" height="400"></canvas>
+            </div>
+            <div class="code-editor-wrapper">
+                <div class="code-editor-label">
+                    <span>Kode PLC (IL Format)</span>
+                    <button class="btn btn-outline btn-sm" id="syncCode">🔄 Sync</button>
+                </div>
+                <textarea class="code-editor" id="plcCodeEditor" spellcheck="false" placeholder="// Tulis program PLC di sini...
+// Contoh:
+LOAD  I0.0   // Start Button
+AND   I0.1   // Emergency Stop (NC)
+OUT   Q0.0   // Motor Forward
+"></textarea>
+            </div>
+            <div class="editor-actions">
+                <button class="btn btn-primary" id="runSimBtn">▶ Jalankan Simulasi</button>
+                <button class="btn btn-outline" id="stopSimBtn">⏹ Stop</button>
+                <button class="btn btn-outline" id="stepBtn">⏭ Step</button>
+            </div>
+        </div>
+
+        <!-- CENTER: FACTORY VISUALIZATION -->
+        <div class="lab-panel lab-factory">
+            <div class="panel-header">
+                <span class="panel-title">🏭 Smart Factory View</span>
+                <div class="panel-controls">
+                    <button class="panel-btn" id="resetFactory" title="Reset">↺</button>
+                    <button class="panel-btn" id="speedControl" title="Speed: 1x">⚡1x</button>
+                </div>
+            </div>
+            <canvas id="factoryCanvas" width="640" height="420"></canvas>
+            <div class="factory-legend">
+                <div class="legend-item"><span class="legend-dot" style="background:#39ff14"></span>Sensor Aktif</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#ff4040"></span>Error/Fault</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#00c8ff"></span>Motor RUN</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#febc2e"></span>Warning</div>
+            </div>
+            <!-- Crash Overlay -->
+            <div class="crash-overlay" id="crashOverlay">
+                <div class="crash-content">
+                    <div class="crash-icon">💥</div>
+                    <h3>SYSTEM FAULT!</h3>
+                    <p id="crashMsg">Kesalahan logika interlock terdeteksi. Motor bergerak tanpa konfirmasi sensor.</p>
+                    <button class="btn btn-primary" id="resetCrash">🔄 Reset & Coba Lagi</button>
+                </div>
+            </div>
+            <!-- Success Overlay -->
+            <div class="success-overlay" id="successOverlay">
+                <div class="success-content">
+                    <div class="success-icon">✅</div>
+                    <h3>SIKLUS SELESAI!</h3>
+                    <p id="successMsg">Program berjalan sempurna! <strong>12 botol</strong> berhasil disortir.</p>
+                    <button class="btn btn-green" id="nextScenario">▶ Skenario Berikutnya</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: I/O MONITOR -->
+        <div class="lab-panel lab-monitor">
+            <div class="panel-header">
+                <span class="panel-title">📊 I/O Monitor</span>
+            </div>
+            <!-- Inputs -->
+            <div class="io-section">
+                <div class="io-section-title">💡 Input (I)</div>
+                <div class="io-grid" id="inputGrid">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+            <!-- Outputs -->
+            <div class="io-section">
+                <div class="io-section-title">⚡ Output (Q)</div>
+                <div class="io-grid" id="outputGrid">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+            <!-- Timers -->
+            <div class="io-section">
+                <div class="io-section-title">⏱ Timers / Counters</div>
+                <div class="timer-grid" id="timerGrid"></div>
+            </div>
+            <!-- Error Log -->
+            <div class="io-section">
+                <div class="io-section-title">❗ Error Log</div>
+                <div class="error-log" id="errorLog">
+                    <div class="error-log-empty">Tidak ada error.</div>
+                </div>
+            </div>
+            <!-- Manual Override -->
+            <div class="io-section">
+                <div class="io-section-title">🕹️ Manual Override</div>
+                <div class="override-btns" id="overrideBtns"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCENARIOS BELOW -->
+    <section class="section scenarios-section">
+        <div class="section-header">
+            <div class="section-badge">🎯 Skenario Latihan</div>
+            <h2 class="section-title">Pilih <span>Tantanganmu</span></h2>
+            <p class="section-subtitle">Mulai dari yang mudah dan tingkatkan kemampuan langkah demi langkah.</p>
+        </div>
+        <div class="scenarios-grid" id="scenariosGrid">
+            <!-- Generated by JS -->
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="nav-brand">
+                    <div class="nav-logo-icon">M</div>
+                    <div class="nav-brand-text">Meka<span>Smart</span> Hub</div>
+                </div>
+                <p>Platform edukasi PLC & Smart Factory terdepan untuk siswa SMK.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Menu</h4>
+                <ul>
+                    <li><a href="../index.html">Beranda</a></li>
+                    <li><a href="asesmen.html">Pintu Masuk</a></li>
+                    <li><a href="ruang-belajar.html">Ruang Belajar</a></li>
+                    <li><a href="pusat-uji.html">Pusat Uji</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Dukungan</h4>
+                <ul>
+                    <li><a href="panduan.html">Panduan</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <ul>
+                    <li><a href="#">Email Guru</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom"><span>© 2025 <span>MekaSmart Hub</span></span></div>
+    </footer>
+
+    <button class="mekabot-fab" id="mekabotFab" onclick="toggleMekaBot()" title="Meka-Bot">🤖</button>
+    <div class="mekabot-window" id="mekabotWindow">
+        <div class="mekabot-header">
+            <div class="mekabot-avatar">🤖</div>
+            <div class="mekabot-info">
+                <h4>Meka-Bot</h4><span>● Online 24/7</span>
+            </div>
+            <button class="mekabot-close" onclick="toggleMekaBot()">✕</button>
+        </div>
+        <div class="mekabot-messages" id="mekabotMessages"></div>
+        <div class="mekabot-suggestions" id="mekabotSuggestions"></div>
+        <div class="mekabot-input-area">
+            <textarea class="mekabot-input" id="mekabotInput" placeholder="Tanya tentang PLC..." rows="1"></textarea>
+            <button class="mekabot-send" id="mekabotSend">➤</button>
+        </div>
+    </div>
+    <div class="toast" id="toast"><span class="toast-icon">✅</span><span id="toastMsg"></span></div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/mekabot.js"></script>
+    <script src="../js/simulator.js"></script>
+</body>
+
+</html>
