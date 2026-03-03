@@ -11,14 +11,14 @@ window.addEventListener('scroll', () => {
 
 // ---- Mobile hamburger ----
 const hamburger = document.getElementById('hamburger');
-const navMenu   = document.getElementById('navMenu');
+const navMenu = document.getElementById('navMenu');
 if (hamburger && navMenu) {
   hamburger.addEventListener('click', () => {
     navMenu.classList.toggle('open');
     const spans = hamburger.querySelectorAll('span');
     if (navMenu.classList.contains('open')) {
       spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
-      spans[1].style.opacity   = '0';
+      spans[1].style.opacity = '0';
       spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
     } else {
       spans.forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
@@ -102,7 +102,7 @@ const Store = {
     try { return JSON.parse(localStorage.getItem('meka_' + key)) ?? def; } catch { return def; }
   },
   set(key, val) {
-    try { localStorage.setItem('meka_' + key, JSON.stringify(val)); } catch {}
+    try { localStorage.setItem('meka_' + key, JSON.stringify(val)); } catch { }
   },
   update(key, def, fn) {
     const current = this.get(key, def);
@@ -114,3 +114,32 @@ const Store = {
 
 window.Store = Store;
 window.showToast = showToast;
+
+// ---- DARK / LIGHT MODE TOGGLE ----
+const themeToggle = document.getElementById('themeToggle');
+const themeKnob = document.getElementById('themeToggleKnob');
+const htmlEl = document.documentElement;
+
+// Muat preferensi tersimpan, default: dark
+function applyTheme(theme) {
+  if (theme === 'light') {
+    htmlEl.setAttribute('data-theme', 'light');
+    if (themeKnob) themeKnob.textContent = '☀️';
+  } else {
+    htmlEl.removeAttribute('data-theme');
+    if (themeKnob) themeKnob.textContent = '🌙';
+  }
+}
+
+const savedTheme = localStorage.getItem('meka_theme') || 'dark';
+applyTheme(savedTheme);
+
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const current = htmlEl.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    const next = current === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('meka_theme', next);
+    showToast(next === 'light' ? '☀️ Mode Terang aktif' : '🌙 Mode Gelap aktif');
+  });
+}
