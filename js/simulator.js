@@ -203,10 +203,12 @@ function executePLCLogic() {
 function drawFactory() {
     if (!fCtx) return;
     const W = fCanvas.width, H = fCanvas.height;
-    fCtx.clearRect(0, 0, W, H);
+    // Fill white background
+    fCtx.fillStyle = '#ffffff';
+    fCtx.fillRect(0, 0, W, H);
 
     // Background grid
-    fCtx.strokeStyle = 'rgba(0,200,255,0.04)';
+    fCtx.strokeStyle = 'rgba(0,120,180,0.10)';
     fCtx.lineWidth = 1;
     for (let x = 0; x < W; x += 40) { fCtx.beginPath(); fCtx.moveTo(x, 0); fCtx.lineTo(x, H); fCtx.stroke(); }
     for (let y = 0; y < H; y += 40) { fCtx.beginPath(); fCtx.moveTo(0, y); fCtx.lineTo(W, y); fCtx.stroke(); }
@@ -236,13 +238,13 @@ function drawConveyor() {
     const beltH = 20;
 
     // Belt track
-    fCtx.fillStyle = 'rgba(30,50,80,0.8)';
+    fCtx.fillStyle = 'rgba(20,40,70,0.85)';
     fCtx.roundRect(40, cy - beltH / 2, W - 80, beltH, 4);
     fCtx.fill();
 
     // Belt lines (animated)
     const offset = simState.conveyor.active ? (simState.tick * 2 % 40) : 0;
-    fCtx.strokeStyle = 'rgba(0,200,255,0.2)';
+    fCtx.strokeStyle = 'rgba(0,200,255,0.5)';
     fCtx.lineWidth = 1;
     for (let x = 40 + offset; x < W - 40; x += 40) {
         fCtx.beginPath(); fCtx.moveTo(x, cy - beltH / 2); fCtx.lineTo(x, cy + beltH / 2); fCtx.stroke();
@@ -252,7 +254,7 @@ function drawConveyor() {
     [{ x: 50 }, { x: W - 50 }].forEach(r => {
         fCtx.beginPath(); fCtx.arc(r.x, cy, 14, 0, Math.PI * 2);
         fCtx.fillStyle = '#1a3050'; fCtx.fill();
-        fCtx.strokeStyle = simState.conveyor.active ? 'rgba(0,200,255,0.6)' : 'rgba(255,255,255,0.1)';
+        fCtx.strokeStyle = simState.conveyor.active ? 'rgba(0,180,255,0.9)' : 'rgba(100,130,160,0.5)';
         fCtx.lineWidth = 2; fCtx.stroke();
         // Rotation mark
         if (simState.conveyor.active) {
@@ -260,12 +262,12 @@ function drawConveyor() {
             fCtx.beginPath();
             fCtx.moveTo(r.x, cy);
             fCtx.lineTo(r.x + Math.cos(angle) * 10, cy + Math.sin(angle) * 10);
-            fCtx.strokeStyle = 'rgba(0,200,255,0.5)'; fCtx.lineWidth = 2; fCtx.stroke();
+            fCtx.strokeStyle = 'rgba(0,200,255,0.8)'; fCtx.lineWidth = 2; fCtx.stroke();
         }
     });
 
     // Label
-    fCtx.fillStyle = simState.conveyor.active ? 'rgba(57,255,20,0.9)' : 'rgba(255,255,255,0.2)';
+    fCtx.fillStyle = simState.conveyor.active ? 'rgba(20,160,20,0.95)' : 'rgba(80,100,130,0.9)';
     fCtx.font = 'bold 10px JetBrains Mono, monospace';
     fCtx.textAlign = 'center';
     fCtx.fillText(simState.conveyor.active ? 'CONVEYOR: RUN' : 'CONVEYOR: STOP', W / 2, cy + beltH / 2 + 16);
@@ -391,11 +393,11 @@ function drawBins() {
     // Bins at end of conveyor
     const binY = cy + 30;
     [
-        { label: 'PUTIH', count: simState.sortBin.white, color: 'rgba(255,255,255,0.3)', x: W - 40 },
-        { label: 'MERAH', count: simState.sortBin.red, color: 'rgba(255,60,60,0.6)', x: W - 40 },
-        { label: 'BIRU', count: simState.sortBin.blue, color: 'rgba(60,120,255,0.6)', x: W - 40 },
+        { label: 'PUTIH', count: simState.sortBin.white, color: 'rgba(100,110,130,0.9)', x: W - 40 },
+        { label: 'MERAH', count: simState.sortBin.red, color: 'rgba(200,40,40,0.85)', x: W - 40 },
+        { label: 'BIRU', count: simState.sortBin.blue, color: 'rgba(40,80,210,0.85)', x: W - 40 },
     ].forEach((bin, i) => {
-        fCtx.fillStyle = 'rgba(0,0,0,0.3)';
+        fCtx.fillStyle = 'rgba(220,230,240,0.7)';
         fCtx.strokeStyle = bin.color;
         fCtx.lineWidth = 1;
         fCtx.beginPath(); fCtx.roundRect(W - 90, binY + i * 35, 80, 28, 4); fCtx.fill(); fCtx.stroke();
@@ -418,11 +420,11 @@ function drawStatusOverlay() {
     ];
 
     statusItems.forEach(s => {
-        fCtx.fillStyle = s.active ? 'rgba(57,255,20,0.15)' : 'rgba(255,255,255,0.04)';
-        fCtx.strokeStyle = s.active ? 'rgba(57,255,20,0.5)' : 'rgba(255,255,255,0.08)';
+        fCtx.fillStyle = s.active ? 'rgba(57,220,20,0.15)' : 'rgba(200,210,225,0.5)';
+        fCtx.strokeStyle = s.active ? 'rgba(40,180,20,0.7)' : 'rgba(140,160,190,0.5)';
         fCtx.lineWidth = 1;
         fCtx.beginPath(); fCtx.roundRect(s.x, 10, 74, 22, 4); fCtx.fill(); fCtx.stroke();
-        fCtx.fillStyle = s.active ? 'rgba(57,255,20,0.9)' : 'rgba(255,255,255,0.3)';
+        fCtx.fillStyle = s.active ? 'rgba(20,140,20,0.95)' : 'rgba(80,100,130,0.85)';
         fCtx.font = 'bold 9px JetBrains Mono, monospace';
         fCtx.textAlign = 'center';
         fCtx.fillText(s.label, s.x + 37, 25);
