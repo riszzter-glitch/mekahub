@@ -1180,4 +1180,9 @@ select {
         width: calc(100vw - 40px);
         right: 20px
     }
+
+    .nav-cta {
+        padding: 6px 14px;
+        font-size: 0.75rem;
+    }
 }
