@@ -134,20 +134,21 @@
 }
 
 .module-card {
-    background: var(--bg-glass);
-    border: 1px solid var(--border-glass);
+    background: linear-gradient(145deg, rgba(14, 30, 60, 0.92) 0%, rgba(8, 18, 36, 0.95) 100%);
+    border: 1px solid rgba(0, 200, 255, 0.18);
     border-radius: var(--radius-lg);
     padding: 24px;
     cursor: pointer;
     transition: var(--transition);
     position: relative;
-    overflow: hidden
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35)
 }
 
 .module-card:hover {
-    border-color: rgba(0, 200, 255, 0.3);
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-blue)
+    border-color: rgba(0, 200, 255, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px rgba(0, 200, 255, 0.2), 0 8px 30px rgba(0, 0, 0, 0.4)
 }
 
 .module-card.locked {
@@ -156,7 +157,8 @@
 }
 
 .module-card.completed {
-    border-color: rgba(57, 255, 20, 0.25)
+    border-color: rgba(57, 255, 20, 0.3);
+    background: linear-gradient(145deg, rgba(10, 35, 20, 0.92) 0%, rgba(8, 18, 36, 0.95) 100%)
 }
 
 .module-num {
@@ -269,18 +271,19 @@
 }
 
 .video-card {
-    background: var(--bg-glass);
-    border: 1px solid var(--border-glass);
+    background: linear-gradient(145deg, rgba(14, 30, 60, 0.92) 0%, rgba(8, 18, 36, 0.95) 100%);
+    border: 1px solid rgba(0, 200, 255, 0.18);
     border-radius: var(--radius-lg);
     overflow: hidden;
     cursor: pointer;
-    transition: var(--transition)
+    transition: var(--transition);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35)
 }
 
 .video-card:hover {
-    border-color: rgba(0, 200, 255, 0.3);
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-blue)
+    border-color: rgba(0, 200, 255, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px rgba(0, 200, 255, 0.2), 0 8px 30px rgba(0, 0, 0, 0.4)
 }
 
 .video-thumb {
@@ -347,20 +350,22 @@
 }
 
 .jobsheet-card {
-    background: var(--bg-glass);
-    border: 1px solid var(--border-glass);
+    background: linear-gradient(145deg, rgba(14, 30, 60, 0.92) 0%, rgba(8, 18, 36, 0.95) 100%);
+    border: 1px solid rgba(0, 200, 255, 0.18);
     border-radius: var(--radius-lg);
     padding: 20px 24px;
     display: flex;
     align-items: center;
     gap: 16px;
     transition: var(--transition);
-    cursor: pointer
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3)
 }
 
 .jobsheet-card:hover {
-    border-color: rgba(0, 200, 255, 0.3);
-    transform: translateY(-2px)
+    border-color: rgba(0, 200, 255, 0.38);
+    transform: translateY(-3px);
+    box-shadow: 0 0 24px rgba(0, 200, 255, 0.15), 0 6px 24px rgba(0, 0, 0, 0.4)
 }
 
 .jobsheet-icon {

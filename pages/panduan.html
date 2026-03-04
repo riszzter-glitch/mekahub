@@ -7,6 +7,7 @@
     <meta name="description"
         content="Panduan Penggunaan MekaSmart Hub – Mulai dari sini, lima langkah terstruktur menuju kompetensi PLC.">
     <title>Panduan – Mulai Dari Sini | MekaSmart Hub</title>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="stylesheet" href="../css/style.css">
     <style>
         .guide-section {
@@ -179,7 +180,11 @@
             <li><a href="pusat-uji.html" class="nav-link">Pusat Uji</a></li>
         </ul>
         <a href="asesmen.html" class="nav-cta btn">Mulai Gratis</a>
-        <button class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle tema">
+            <span class="theme-toggle-knob" id="themeToggleKnob">🌙</span>
+        </button>
+        <button class="nav-hamburger" id="hamburger"
+            aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </nav>
 
     <section class="page-hero">
@@ -235,7 +240,8 @@
                 <p>Temukan istilah yang tidak dimengerti? Program error tapi tidak tahu kenapa? Klik tombol
                     <strong>🤖</strong> di pojok kanan bawah untuk membuka Meka-Bot. Kamu bisa menanyakan definisi
                     istilah PLC, meminta penjelasan konsep, atau meminta Meka-Bot mencarikan modul yang relevan.
-                    Meka-Bot siap melayanimu 24 jam sehari, 7 hari seminggu.</p>
+                    Meka-Bot siap melayanimu 24 jam sehari, 7 hari seminggu.
+                </p>
                 <button class="btn btn-outline btn-sm" onclick="openMekaBot()">Chat dengan Meka-Bot →</button>
             </div>
         </div>

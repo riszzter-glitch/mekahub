@@ -32,11 +32,20 @@ let fCanvas, fCtx;
 function initFactory() {
     fCanvas = document.getElementById('factoryCanvas');
     fCtx = fCanvas.getContext('2d');
-    fCanvas.width = fCanvas.offsetWidth;
-    fCanvas.height = fCanvas.offsetHeight;
+    // Gunakan offsetWidth hanya jika lebih besar dari nilai HTML attr
+    // Hindari reset ke 0 saat elemen belum render
+    function resizeCanvas() {
+        const w = fCanvas.offsetWidth;
+        const h = fCanvas.offsetHeight;
+        if (w > 0 && h > 0) {
+            fCanvas.width = w;
+            fCanvas.height = h;
+        }
+    }
+    resizeCanvas();
     window.addEventListener('resize', () => {
-        fCanvas.width = fCanvas.offsetWidth;
-        fCanvas.height = fCanvas.offsetHeight;
+        resizeCanvas();
+        if (!simState.running) drawFactory();
     });
 
     buildIOPanel();
@@ -170,8 +179,9 @@ function executePLCLogic() {
             Q['Q0.1'] = I['I0.2'] && I['I0.3'] ? 1 : 0; // Robot moves if bottle + color sensor
             break;
 
-        case 'interlock':
+        case 'interlock': {
             // Interlock: Forward AND NOT Reverse, and vice versa
+            // Wrap in block to allow const declarations in switch-case
             const fwd = I['I0.0'] && !Q['Q0.1'] && I['I0.1'] && !I['I0.5'];
             const rev = I['I0.2'] && !Q['Q0.0'] && I['I0.1'] && !I['I0.5'];
             // Check for interlock violation
@@ -183,6 +193,7 @@ function executePLCLogic() {
             Q['Q0.0'] = fwd ? 1 : 0;
             Q['Q0.1'] = rev ? 1 : 0;
             break;
+        }
     }
 
     simState.conveyor.active = !!Q['Q0.0'];
@@ -461,14 +472,16 @@ function simLoop(ts) {
 function logError(msg) {
     simState.errors++;
     const log = document.getElementById('errorLog');
+    if (!log) return;
     const empty = log.querySelector('.error-log-empty');
     if (empty) empty.remove();
     const entry = document.createElement('div');
     entry.className = 'error-entry';
     const now = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    entry.innerHTML = `<time>${now}</time>${msg}`;
+    entry.innerHTML = `<time>${now}</time> ${msg}`;
     log.prepend(entry);
-    document.getElementById('errorNum').textContent = simState.errors;
+    const errNumEl = document.getElementById('errorNum');
+    if (errNumEl) errNumEl.textContent = simState.errors;
 }
 
 function showCrash(msg) {
@@ -616,6 +629,8 @@ window.addEventListener('DOMContentLoaded', () => {
             updateIODisplay();
             drawFactory();
             showToast('⏭ Satu langkah dieksekusi');
+        } else {
+            showToast('⚠️ Hentikan simulasi dulu sebelum step mode', 'warning');
         }
     });
     document.getElementById('resetFactory')?.addEventListener('click', resetSim);
@@ -629,21 +644,35 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('clearCode')?.addEventListener('click', () => {
         document.getElementById('plcCodeEditor').value = '';
+        showToast('🗑️ Kode dikosongkan');
     });
     document.getElementById('loadTemplate')?.addEventListener('click', () => {
         document.getElementById('plcCodeEditor').value = SCENARIO_CODES[simState.scenario] || '';
         showToast('📋 Template kode dimuat');
     });
+    // Sync code button - copy IL code to editor display
+    document.getElementById('syncCode')?.addEventListener('click', () => {
+        const code = document.getElementById('plcCodeEditor').value;
+        if (code.trim()) {
+            showToast('🔄 Kode PLC tersinkronisasi dengan simulator');
+        } else {
+            showToast('⚠️ Tulis kode PLC terlebih dahulu', 'warning');
+        }
+    });
     document.getElementById('speedControl')?.addEventListener('click', () => {
         simState.speed = simState.speed >= 4 ? 1 : simState.speed * 2;
         document.getElementById('speedControl').textContent = `⚡${simState.speed}x`;
+        showToast(`Kecepatan: ${simState.speed}x`);
     });
     document.getElementById('scenarioSelect')?.addEventListener('change', e => {
         selectScenario(e.target.value);
     });
 
     // Load demo code
-    document.getElementById('plcCodeEditor').value = SCENARIO_CODES['basic'];
+    const editor = document.getElementById('plcCodeEditor');
+    if (editor && !editor.value.trim()) {
+        editor.value = SCENARIO_CODES['basic'];
+    }
 });
 
 window.selectScenario = selectScenario;
