@@ -462,6 +462,10 @@ function simLoop(ts) {
         updateIODisplay();
         document.getElementById('cycleNum').textContent = simState.cycle;
         document.getElementById('errorNum').textContent = simState.errors;
+        // Trigger first-time badge
+        if (simState.cycle === 10 && typeof showBadgeNotif === 'function') {
+            showBadgeNotif('🔬 Explorer Simulator – 10 Siklus Selesai!');
+        }
     }
 
     drawFactory();
@@ -615,6 +619,11 @@ function selectScenario(id) {
     document.getElementById('plcCodeEditor').value = code;
     renderScenariosGrid();
     showToast(`📋 Skenario "${SCENARIOS_DATA.find(s => s.id === id)?.title}" dimuat`);
+    // Update hint panel if open
+    const hp = document.getElementById('hintPanel');
+    if (hp && hp.classList.contains('visible') && typeof updateHintContent === 'function') {
+        updateHintContent(id);
+    }
 }
 
 // ========== EVENT LISTENERS ==========

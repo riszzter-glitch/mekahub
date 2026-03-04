@@ -10,10 +10,241 @@
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/meka-lab.css">
+    <style>
+        /* ===== LAB GUIDE MODAL ===== */
+        #labGuide {
+            margin: auto;
+            border: none;
+            border-radius: 20px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            max-width: 640px;
+            width: 90vw;
+            padding: 0;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--border-glass);
+        }
+
+        #labGuide::backdrop {
+            background: rgba(5, 11, 24, 0.85);
+            backdrop-filter: blur(8px);
+        }
+
+        .guide-header {
+            background: linear-gradient(135deg, rgba(0, 200, 255, 0.12), rgba(0, 255, 213, 0.06));
+            border-bottom: 1px solid var(--border-glass);
+            padding: 24px 32px 20px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .guide-header h2 {
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .guide-close-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .guide-close-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .guide-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            padding: 0;
+        }
+
+        .guide-step {
+            padding: 24px 20px;
+            border-right: 1px solid var(--border-glass);
+            text-align: center;
+        }
+
+        .guide-step:last-child {
+            border-right: none;
+        }
+
+        .guide-step-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: var(--bg-primary);
+            font-weight: 800;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+
+        .guide-step img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-glass);
+        }
+
+        .guide-step h4 {
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            color: var(--accent-blue);
+        }
+
+        .guide-step p {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .guide-footer {
+            padding: 20px 32px;
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .guide-footer label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .guide-tips {
+            background: rgba(0, 200, 255, 0.04);
+            border-top: 1px solid var(--border-glass);
+            padding: 16px 32px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .guide-tips strong {
+            color: var(--accent-cyan);
+        }
+
+        /* ===== HINT PANEL ===== */
+        .hint-panel {
+            display: none;
+            background: rgba(0, 200, 255, 0.04);
+            border: 1px solid rgba(0, 200, 255, 0.2);
+            border-radius: var(--radius-md);
+            margin: 0 12px 12px;
+            padding: 14px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .hint-panel.visible {
+            display: block;
+        }
+
+        .hint-panel strong {
+            color: var(--accent-blue);
+        }
+
+        .hint-panel ol {
+            padding-left: 18px;
+            margin-top: 8px;
+        }
+
+        .hint-panel li {
+            margin-bottom: 4px;
+        }
+
+        /* ===== GUIDE BUTTON IN TOOLBAR ===== */
+        .lab-guide-btn {
+            padding: 7px 14px;
+            border-radius: var(--radius-sm);
+            background: rgba(0, 200, 255, 0.1);
+            border: 1px solid rgba(0, 200, 255, 0.25);
+            color: var(--accent-blue);
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .lab-guide-btn:hover {
+            background: rgba(0, 200, 255, 0.18);
+        }
+
+        /* ===== BADGE NOTIF ===== */
+        .badge-notif {
+            display: none;
+            position: fixed;
+            top: 90px;
+            right: 30px;
+            z-index: 9999;
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.15), rgba(0, 200, 100, 0.1));
+            border: 1px solid rgba(57, 255, 20, 0.4);
+            border-radius: var(--radius-lg);
+            padding: 16px 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.4s ease;
+            max-width: 280px;
+        }
+
+        .badge-notif.show {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge-notif-icon {
+            font-size: 2rem;
+        }
+
+        .badge-notif-text h4 {
+            font-size: 0.88rem;
+            color: var(--accent-green);
+            margin-bottom: 2px;
+        }
+
+        .badge-notif-text p {
+            font-size: 0.76rem;
+            color: var(--text-secondary);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(120%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
+    <!-- ===== NAVBAR ===== -->
     <nav class="navbar" id="navbar">
         <div class="nav-brand">
             <div class="nav-logo-icon">M</div>
@@ -34,7 +265,63 @@
             aria-label="Toggle menu"><span></span><span></span><span></span></button>
     </nav>
 
-    <!-- LAB HEADER -->
+    <!-- ===== STEP-BY-STEP GUIDE MODAL ===== -->
+    <dialog id="labGuide" aria-label="Panduan Meka-Lab">
+        <div class="guide-header">
+            <h2>🛠️ Panduan Menggunakan Meka-Lab</h2>
+            <button class="guide-close-btn" onclick="closeLabGuide()">✕</button>
+        </div>
+        <div class="guide-steps">
+            <div class="guide-step">
+                <div class="guide-step-num">1</div>
+                <img src="../assets/images/lab_guide_step1.png" alt="Pilih skenario"
+                    onerror="this.style.display='none'">
+                <h4>Pilih Skenario</h4>
+                <p>Klik dropdown <strong>"Skenario"</strong> dan pilih tingkat latihan: Dasar, Menengah, Lanjut, atau
+                    Expert. Klik <em>Load Template</em> 📋 untuk memuat kode contoh.</p>
+            </div>
+            <div class="guide-step">
+                <div class="guide-step-num">2</div>
+                <img src="../assets/images/lab_guide_step2.png" alt="Susun Ladder Diagram"
+                    onerror="this.style.display='none'">
+                <h4>Susun Kode PLC</h4>
+                <p>Gunakan toolbar <strong>NO / NC / COIL / TON / CTU</strong> untuk menyisipkan instruksi, atau ketik
+                    langsung di area kode. Klik <em>Sync 🔄</em> untuk menyinkronkan diagram.</p>
+            </div>
+            <div class="guide-step">
+                <div class="guide-step-num">3</div>
+                <img src="../assets/images/lab_guide_step3.png" alt="Jalankan Simulasi"
+                    onerror="this.style.display='none'">
+                <h4>Jalankan &amp; Amati</h4>
+                <p>Tekan <strong>▶ Jalankan Simulasi</strong>. Perhatikan Smart Factory View dan pantau I/O Monitor.
+                    Gunakan <em>Manual Override</em> untuk mengubah input secara langsung.</p>
+            </div>
+        </div>
+        <div class="guide-tips">
+            <strong>💡 Tips:</strong> Jika muncul <em>SYSTEM FAULT!</em>, baca pesan error di bawahnya dan periksa
+            logika interlock-mu.
+            Gunakan tombol <strong>⏭ Step</strong> untuk mengeksekusi satu siklus PLC dalam mode debug.
+            Tekan <strong>↺ Reset</strong> kapan saja untuk memulai ulang dari awal.
+        </div>
+        <div class="guide-footer">
+            <label>
+                <input type="checkbox" id="dontShowGuide" onchange="saveDontShow(this.checked)">
+                Jangan tampilkan lagi
+            </label>
+            <button class="btn btn-primary" onclick="closeLabGuide()">✅ Mengerti, Mulai Simulasi!</button>
+        </div>
+    </dialog>
+
+    <!-- ===== BADGE NOTIFICATION ===== -->
+    <div class="badge-notif" id="badgeNotif">
+        <div class="badge-notif-icon">🏅</div>
+        <div class="badge-notif-text">
+            <h4>Badge Diperoleh!</h4>
+            <p id="badgeNotifText">Explorer Simulator</p>
+        </div>
+    </div>
+
+    <!-- ===== LAB HEADER ===== -->
     <div class="lab-header">
         <div class="lab-title-area">
             <div class="page-hero-badge">🏭 Meka-Lab</div>
@@ -51,10 +338,13 @@
             <div class="lab-status-item" id="errorStatus">
                 ⚠️ Error: <span id="errorNum">0</span>
             </div>
+            <button class="lab-guide-btn" onclick="document.getElementById('labGuide').showModal()">
+                📖 Panduan
+            </button>
         </div>
     </div>
 
-    <!-- MAIN LAB INTERFACE -->
+    <!-- ===== MAIN LAB INTERFACE ===== -->
     <div class="lab-container">
 
         <!-- LEFT: LADDER EDITOR -->
@@ -62,10 +352,18 @@
             <div class="panel-header">
                 <span class="panel-title">📝 Ladder Diagram Editor</span>
                 <div class="panel-controls">
-                    <button class="panel-btn" id="clearCode" title="Clear">🗑️</button>
-                    <button class="panel-btn" id="loadTemplate" title="Load Template">📋</button>
+                    <button class="panel-btn" id="clearCode" title="Bersihkan kode">🗑️</button>
+                    <button class="panel-btn" id="loadTemplate" title="Load template kode skenario">📋</button>
+                    <button class="panel-btn" id="toggleHint" title="Tampilkan Hint langkah-langkah">💡</button>
                 </div>
             </div>
+
+            <!-- HINT PANEL -->
+            <div class="hint-panel" id="hintPanel">
+                <strong>💡 Hint Skenario Aktif:</strong>
+                <div id="hintContent">Pilih skenario terlebih dahulu untuk melihat petunjuk.</div>
+            </div>
+
             <div class="scenario-select">
                 <label>Skenario:</label>
                 <select id="scenarioSelect">
@@ -76,13 +374,21 @@
                 </select>
             </div>
             <div class="ladder-toolbar">
-                <button class="ladder-btn" data-insert="NO" title="Normally Open Contact">⊣⊢ NO</button>
-                <button class="ladder-btn" data-insert="NC" title="Normally Closed Contact">⊣/⊢ NC</button>
-                <button class="ladder-btn" data-insert="COIL" title="Output Coil">( ) Coil</button>
-                <button class="ladder-btn" data-insert="TON" title="Timer On-Delay">⏱ TON</button>
-                <button class="ladder-btn" data-insert="CTU" title="Counter Up">🔢 CTU</button>
-                <button class="ladder-btn" data-insert="MOV" title="Move">↔ MOV</button>
-                <button class="ladder-btn" data-insert="CMP" title="Compare">= CMP</button>
+                <button class="ladder-btn" data-insert="NO"
+                    title="Normally Open – Kontak terbuka, aktif saat ada sinyal input">⊣⊢ NO</button>
+                <button class="ladder-btn" data-insert="NC"
+                    title="Normally Closed – Kontak tertutup, terputus saat ada sinyal (cocok STOP/E-Stop)">⊣/⊢
+                    NC</button>
+                <button class="ladder-btn" data-insert="COIL"
+                    title="Output Coil – Mengaktifkan output (motor, lampu, solenoid)">( ) Coil</button>
+                <button class="ladder-btn" data-insert="TON"
+                    title="Timer On-Delay – Output aktif setelah waktu preset terpenuhi">⏱ TON</button>
+                <button class="ladder-btn" data-insert="CTU"
+                    title="Counter Up – Menghitung pulsa input, output aktif saat mencapai preset">🔢 CTU</button>
+                <button class="ladder-btn" data-insert="MOV" title="Move – Memindahkan nilai data antar register">↔
+                    MOV</button>
+                <button class="ladder-btn" data-insert="CMP"
+                    title="Compare – Membandingkan dua nilai, output aktif jika kondisi terpenuhi">= CMP</button>
             </div>
             <div class="ladder-canvas-wrapper">
                 <canvas id="ladderCanvas" width="460" height="400"></canvas>
@@ -111,8 +417,8 @@ OUT   Q0.0   // Motor Forward
             <div class="panel-header">
                 <span class="panel-title">🏭 Smart Factory View</span>
                 <div class="panel-controls">
-                    <button class="panel-btn" id="resetFactory" title="Reset">↺</button>
-                    <button class="panel-btn" id="speedControl" title="Speed: 1x">⚡1x</button>
+                    <button class="panel-btn" id="resetFactory" title="Reset simulasi">↺</button>
+                    <button class="panel-btn" id="speedControl" title="Ganti kecepatan simulasi">⚡1x</button>
                 </div>
             </div>
             <canvas id="factoryCanvas" width="640" height="420"></canvas>
@@ -128,7 +434,7 @@ OUT   Q0.0   // Motor Forward
                     <div class="crash-icon">💥</div>
                     <h3>SYSTEM FAULT!</h3>
                     <p id="crashMsg">Kesalahan logika interlock terdeteksi. Motor bergerak tanpa konfirmasi sensor.</p>
-                    <button class="btn btn-primary" id="resetCrash">🔄 Reset & Coba Lagi</button>
+                    <button class="btn btn-primary" id="resetCrash">🔄 Reset &amp; Coba Lagi</button>
                 </div>
             </div>
             <!-- Success Overlay -->
@@ -200,7 +506,7 @@ OUT   Q0.0   // Motor Forward
                     <div class="nav-logo-icon">M</div>
                     <div class="nav-brand-text">Meka<span>Smart</span> Hub</div>
                 </div>
-                <p>Platform edukasi PLC & Smart Factory terdepan untuk siswa SMK.</p>
+                <p>Platform edukasi PLC &amp; Smart Factory terdepan untuk siswa SMK.</p>
             </div>
             <div class="footer-col">
                 <h4>Menu</h4>
@@ -249,6 +555,97 @@ OUT   Q0.0   // Motor Forward
     <script src="../js/main.js"></script>
     <script src="../js/mekabot.js"></script>
     <script src="../js/simulator.js"></script>
+    <script>
+        // ===== LAB GUIDE MODAL LOGIC =====
+        const GUIDE_KEY = 'mekahub_labGuide_dismissed';
+
+        function closeLabGuide() {
+            document.getElementById('labGuide').close();
+        }
+        function saveDontShow(checked) {
+            localStorage.setItem(GUIDE_KEY, checked ? '1' : '0');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Show guide on first visit
+            const dismissed = localStorage.getItem(GUIDE_KEY) === '1';
+            if (!dismissed) {
+                setTimeout(() => {
+                    document.getElementById('labGuide').showModal();
+                }, 800);
+            }
+
+            // Hint Panel toggle
+            const hintBtn = document.getElementById('toggleHint');
+            const hintPanel = document.getElementById('hintPanel');
+            hintBtn?.addEventListener('click', () => {
+                hintPanel.classList.toggle('visible');
+                updateHintContent(document.getElementById('scenarioSelect')?.value || 'basic');
+            });
+
+            // Update hint when scenario changes
+            document.getElementById('scenarioSelect')?.addEventListener('change', (e) => {
+                if (hintPanel.classList.contains('visible')) {
+                    updateHintContent(e.target.value);
+                }
+            });
+
+            // Badge notification close
+            const badgeNotif = document.getElementById('badgeNotif');
+            badgeNotif?.addEventListener('click', () => badgeNotif.classList.remove('show'));
+        });
+
+        const HINTS = {
+            basic: `
+                <ol>
+                    <li>Set <strong>I0.0 = ON</strong> (START button) dari Manual Override</li>
+                    <li>Pastikan <strong>I0.1 = ON</strong> (STOP NC – kondisi normal)</li>
+                    <li>Klik <strong>▶ Jalankan Simulasi</strong></li>
+                    <li>Amati <strong>Q0.0 aktif</strong> → konveyor bergerak di Factory View</li>
+                    <li>Set <strong>I0.1 = OFF</strong> untuk menghentikan motor</li>
+                </ol>`,
+            conveyor: `
+                <ol>
+                    <li>Muat template kode dengan klik 📋 <strong>Load Template</strong></li>
+                    <li>Jalankan simulasi – konveyor mulai bergerak</li>
+                    <li>Saat botol melewati sensor (<strong>I0.2 aktif</strong>), Timer T0 mulai menghitung</li>
+                    <li>Setelah 5 detik, motor berhenti otomatis (T0.DN aktif)</li>
+                    <li>Amati perubahan di panel <strong>⏱ Timers</strong> kanan</li>
+                </ol>`,
+            sorting: `
+                <ol>
+                    <li>Jalankan simulasi – konveyor membawa botol berwarna</li>
+                    <li>Saat botol merah/biru melewati sensor, <strong>I0.2 & I0.3 aktif</strong></li>
+                    <li>Gate sorter <strong>Q0.3</strong> terbuka & Robot Arm <strong>Q0.1</strong> bergerak</li>
+                    <li>Botol tersortir ke bin sesuai warna (kanan canvas)</li>
+                    <li>Pantau jumlah botol tersortir di status bar</li>
+                </ol>`,
+            interlock: `
+                <ol>
+                    <li>Coba aktifkan <strong>I0.0 (Forward)</strong> – motor Q0.0 menyala</li>
+                    <li>Coba aktifkan <strong>I0.2 (Reverse)</strong> secara bersamaan</li>
+                    <li>⚠️ Sistem akan menampilkan <strong>SYSTEM FAULT!</strong> – ini benar!</li>
+                    <li>Interlock mencegah konflik mematikan. Reset dan coba satu per satu.</li>
+                    <li>Ini adalah praktik keselamatan industri yang wajib dipahami!</li>
+                </ol>`
+        };
+
+        function updateHintContent(scenarioId) {
+            const el = document.getElementById('hintContent');
+            if (el) el.innerHTML = HINTS[scenarioId] || '<p>Pilih skenario untuk melihat panduan.</p>';
+        }
+
+        function showBadgeNotif(badgeName) {
+            const notif = document.getElementById('badgeNotif');
+            document.getElementById('badgeNotifText').textContent = badgeName;
+            notif.classList.add('show');
+            setTimeout(() => notif.classList.remove('show'), 4000);
+        }
+
+        window.showBadgeNotif = showBadgeNotif;
+        window.closeLabGuide = closeLabGuide;
+        window.saveDontShow = saveDontShow;
+    </script>
 </body>
 
 </html>

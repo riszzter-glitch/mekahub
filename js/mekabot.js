@@ -491,12 +491,15 @@ function getFallbackResponse(text) {
         return '🔧 Konveyor/Motor tidak bergerak? Cek: (1) Tombol START sudah diprogram benar? (2) STOP/E-Stop dalam kondisi NC? (3) Output Q0.0 terhubung ke motor? (4) Power supply PLC OK?';
     }
 
-    // Default
-    const fallbacks = [
-        `🤔 Pertanyaanmu menarik! Saat ini koneksi AI-ku sedang rate-limited sementara. Coba lagi dalam beberapa detik, atau tanyakan hal spesifik seperti: <em>"Apa itu Timer TON?"</em> atau cek <a href="${_base}ruang-belajar.html" class="msg-link">Ruang Belajar</a> untuk materi lengkap.`,
-        `💡 AI-ku sedang sibuk sebentar! Untuk pertanyaan teknis kompleks, cek modul di <a href="${_base}ruang-belajar.html" class="msg-link">Ruang Belajar</a> atau coba tanya lagi dalam 1-2 menit.`,
-    ];
-    return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+    // Default — always give actionable quick buttons
+    return `🤔 Pertanyaanmu menarik! Koneksi AI sedang hang sebentar.<br><br>
+Sementara itu, mau ke mana?<br>
+<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">
+  <a href="${_base}ruang-belajar.html" class="msg-link" style="padding:5px 10px;background:rgba(0,200,255,0.1);border:1px solid rgba(0,200,255,0.25);border-radius:6px;text-decoration:none">📚 Ruang Belajar</a>
+  <a href="${_base}meka-lab.html" class="msg-link" style="padding:5px 10px;background:rgba(57,255,20,0.08);border:1px solid rgba(57,255,20,0.2);border-radius:6px;text-decoration:none">🏭 Meka-Lab</a>
+  <a href="${_base}pusat-uji.html" class="msg-link" style="padding:5px 10px;background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.25);border-radius:6px;text-decoration:none">📝 Pusat Uji</a>
+  <a href="${_base}asesmen.html" class="msg-link" style="padding:5px 10px;background:rgba(255,107,0,0.1);border:1px solid rgba(255,107,0,0.25);border-radius:6px;text-decoration:none">🧠 Asesmen Bakat</a>
+</div>`;
 }
 
 // ========== GLOBAL EXPORTS ==========

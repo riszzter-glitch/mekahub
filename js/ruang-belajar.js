@@ -1,5 +1,5 @@
 /* =============================================
-   RUANG-BELAJAR.JS – Module Library
+   RUANG-BELAJAR.JS – Module Library (Updated)
    ============================================= */
 
 const MODULES = [
@@ -18,24 +18,24 @@ const MODULES = [
 ];
 
 const VIDEOS = [
-  { icon: '⚡', title: 'Pengenalan PLC: Apa itu PLC dan Bagaimana Cara Kerjanya?', duration: '12:34', module: 'Modul 01', views: '2.4K' },
-  { icon: '🔗', title: 'Tutorial Ladder Diagram: Dari Nol Hingga Program Pertamamu', duration: '18:45', module: 'Modul 02', views: '3.1K' },
-  { icon: '🔌', title: 'Wiring PLC Step-by-Step: Pasang Sensor & Motor dengan Benar', duration: '22:10', module: 'Modul 03', views: '1.8K' },
-  { icon: '⏱️', title: 'Timer TON & Counter CTU: Kapan dan Bagaimana Menggunakannya', duration: '15:20', module: 'Modul 04', views: '2.2K' },
-  { icon: '🔄', title: 'Interlock System: Cara Membuat Program PLC yang Aman', duration: '20:05', module: 'Modul 05', views: '1.5K' },
-  { icon: '🏭', title: 'Smart Factory Simulator: Tutorial Lengkap Meka-Lab', duration: '25:30', module: 'Meka-Lab', views: '4.7K' },
+  { icon: '⚡', title: 'Pengenalan PLC: Apa itu PLC dan Bagaimana Cara Kerjanya?', duration: '12:34', module: 'Modul 01', views: '2.4K', ytId: 'YuGQcDpUs10' },
+  { icon: '🔗', title: 'Tutorial Ladder Diagram: Dari Nol Hingga Program Pertamamu', duration: '18:45', module: 'Modul 02', views: '3.1K', ytId: 'Tq0em5ScLHs' },
+  { icon: '🔌', title: 'Wiring PLC Step-by-Step: Pasang Sensor & Motor dengan Benar', duration: '22:10', module: 'Modul 03', views: '1.8K', ytId: 'Ps5bapqiTsA' },
+  { icon: '⏱️', title: 'Timer TON & Counter CTU: Kapan dan Bagaimana Menggunakannya', duration: '15:20', module: 'Modul 04', views: '2.2K', ytId: 'kH7xwCnNFkY' },
+  { icon: '🔄', title: 'Interlock System: Cara Membuat Program PLC yang Aman', duration: '20:05', module: 'Modul 05', views: '1.5K', ytId: 'qlLnM72sbkw' },
+  { icon: '🏭', title: 'Smart Factory Simulator: Tutorial Lengkap Meka-Lab', duration: '25:30', module: 'Meka-Lab', views: '4.7K', ytId: 'XwqcBgSLjWI' },
 ];
 
 const JOBSHEETS = [
-  { icon: '📄', title: 'JS-01: Wiring Dasar PLC Siemens S7-1200', size: '2.4 MB', module: 'Modul 03' },
-  { icon: '📄', title: 'JS-02: Program Kontrol Motor Tiga Fasa', size: '1.8 MB', module: 'Modul 06' },
-  { icon: '📄', title: 'JS-03: Implementasi Timer & Counter', size: '1.2 MB', module: 'Modul 04' },
-  { icon: '📄', title: 'JS-04: Sistem Interlock Emergency Stop', size: '2.1 MB', module: 'Modul 05' },
-  { icon: '📄', title: 'JS-05: Desain Panel HMI Standar Industri', size: '3.5 MB', module: 'Modul 08' },
-  { icon: '📄', title: 'JS-06: Proyek Smart Factory Mini', size: '5.2 MB', module: 'Modul 12' },
+  { icon: '📄', title: 'JS-01: Wiring Dasar PLC Siemens S7-1200', size: '2.4 MB', module: 'Modul 03', id: '01' },
+  { icon: '📄', title: 'JS-02: Program Kontrol Motor Tiga Fasa', size: '1.8 MB', module: 'Modul 06', id: '02' },
+  { icon: '📄', title: 'JS-03: Implementasi Timer & Counter', size: '1.2 MB', module: 'Modul 04', id: '03' },
+  { icon: '📄', title: 'JS-04: Sistem Interlock Emergency Stop', size: '2.1 MB', module: 'Modul 05', id: '04' },
+  { icon: '📄', title: 'JS-05: Desain Panel HMI Standar Industri', size: '3.5 MB', module: 'Modul 08', id: '05' },
+  { icon: '📄', title: 'JS-06: Proyek Smart Factory Mini', size: '5.2 MB', module: 'Modul 12', id: '06' },
 ];
 
-// Load progress from store
+// ===== PROGRESS =====
 function loadProgress() {
   const progress = Store.get('moduleProgress', {});
   const completed = Object.values(progress).filter(v => v >= 100).length;
@@ -47,24 +47,38 @@ function loadProgress() {
   document.getElementById('earnedBadges').textContent = Math.floor(completed / 4);
   document.getElementById('progressPercent').textContent = pct + '%';
 
-  // SVG ring (r=52, circumference = 2*π*52 ≈ 326.7)
   const ring = document.getElementById('progressRing');
   if (ring) {
     const circ = 326.7;
     ring.style.strokeDashoffset = circ - (pct / 100) * circ;
     ring.style.stroke = 'var(--accent-blue)';
   }
+
+  // Award badge at 4 modules milestone
+  const prev = Store.get('prevCompleted', 0);
+  if (completed >= 4 && prev < 4 && typeof showBadgeNotif === 'function') {
+    showBadgeNotif('🏅 Pembelajar Hebat – 4 Modul Selesai!');
+  }
+  if (completed >= 8 && prev < 8 && typeof showBadgeNotif === 'function') {
+    showBadgeNotif('⭐ Junior PLC Engineer – 8 Modul Selesai!');
+  }
+  if (completed >= 12 && prev < 12 && typeof showBadgeNotif === 'function') {
+    showBadgeNotif('🏆 PLC Master – Semua Modul Selesai!');
+  }
+  Store.set('prevCompleted', completed);
 }
 
+// ===== RENDER MODULES =====
 function renderModules(filter = 'all') {
   const grid = document.getElementById('modulesGrid');
   const progr = Store.get('moduleProgress', {});
   grid.innerHTML = '';
 
-  MODULES.filter(m => filter === 'all' || m.level === filter).forEach((mod, i) => {
+  MODULES.filter(m => filter === 'all' || m.level === filter).forEach((mod) => {
     const pct = progr[mod.id] || 0;
-    // Modul lanjut terkunci jika kurang dari 3 modul dasar/menengah (id 1-8) selesai
-    const basicMenengahDone = MODULES.filter(m => m.level !== 'lanjut').filter(m => (progr[m.id] || 0) >= 100).length;
+    const basicMenengahDone = MODULES
+      .filter(m => m.level !== 'lanjut')
+      .filter(m => (progr[m.id] || 0) >= 100).length;
     const locked = mod.level === 'lanjut' && basicMenengahDone < 3;
     const done = pct >= 100;
 
@@ -72,6 +86,18 @@ function renderModules(filter = 'all') {
     card.className = 'module-card' + (locked ? ' locked' : '') + (done ? ' completed' : '');
 
     const tagColor = { dasar: 'tag-blue', menengah: 'tag-orange', lanjut: 'tag-purple' }[mod.level];
+
+    // Build PDF/Video/Learn buttons
+    let actionBtns = '';
+    if (mod.hasPdf) {
+      actionBtns += `<button class="module-btn module-btn-pdf" onclick="downloadFile('PDF','${mod.title}',${mod.id})" title="Buka & Unduh PDF modul ini">📄 PDF</button>`;
+    }
+    if (mod.hasVideo) {
+      actionBtns += `<button class="module-btn module-btn-video" onclick="playVideo('${mod.title}','${mod.num}')" title="Tonton video tutorial modul ini">▶ Video</button>`;
+    }
+    if (!locked) {
+      actionBtns += `<button class="module-btn" onclick="startModule(${mod.id})" style="background:rgba(57,255,20,0.1);color:var(--accent-green)" title="Tandai modul sebagai selesai">📖 Belajar</button>`;
+    }
 
     card.innerHTML = `
       <div class="module-badge-lock">${done ? '✅' : locked ? '🔒' : '🔓'}</div>
@@ -83,6 +109,7 @@ function renderModules(filter = 'all') {
       <div class="module-meta">
         <span>⏱ ${mod.duration}</span>
         <span>📌 ${mod.topics} topik</span>
+        ${mod.hasJobsheet ? '<span style="color:var(--accent-green)">📄 Jobsheet</span>' : ''}
       </div>
       <div class="module-progress">
         <div class="module-progress-label">
@@ -90,20 +117,17 @@ function renderModules(filter = 'all') {
         </div>
         <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
       </div>
-      <div class="module-actions">
-        ${mod.hasPdf ? `<button class="module-btn module-btn-pdf" onclick="downloadFile('PDF','${mod.title}')">📄 PDF</button>` : ''}
-        ${mod.hasVideo ? `<button class="module-btn module-btn-video" onclick="playVideo('${mod.title}')">▶ Video</button>` : ''}
-        ${!locked ? `<button class="module-btn module-btn-pdf" onclick="startModule(${mod.id})" style="background:rgba(57,255,20,0.1);color:var(--accent-green)">📖 Belajar</button>` : ''}
-      </div>
+      <div class="module-actions">${actionBtns}</div>
     `;
     grid.appendChild(card);
   });
 }
 
+// ===== RENDER VIDEOS =====
 function renderVideos() {
   const grid = document.getElementById('videoGrid');
   grid.innerHTML = VIDEOS.map(v => `
-    <div class="video-card" onclick="playVideo('${v.title}')">
+    <div class="video-card" onclick="playVideo('${v.title}','${v.module}')" title="Tonton: ${v.title}">
       <div class="video-thumb">
         <div class="video-thumb-icon">${v.icon}</div>
       </div>
@@ -116,6 +140,7 @@ function renderVideos() {
   `).join('');
 }
 
+// ===== RENDER JOBSHEETS =====
 function renderJobsheets() {
   const grid = document.getElementById('jobsheetGrid');
   grid.innerHTML = JOBSHEETS.map(j => `
@@ -125,31 +150,34 @@ function renderJobsheets() {
         <h4>${j.title}</h4>
         <span>${j.module} • ${j.size}</span>
       </div>
-      <button class="jobsheet-dl" onclick="downloadFile('Jobsheet','${j.title}')">⬇ Unduh</button>
+      <button class="jobsheet-dl" onclick="downloadFile('Jobsheet','${j.title}','${j.id}')" title="Unduh jobsheet ini">⬇ Unduh</button>
     </div>
   `).join('');
 }
 
+// ===== START MODULE =====
 function startModule(id) {
-  // Update progress +20 per click (demo)
   const progress = Store.update('moduleProgress', {}, p => {
     p[id] = Math.min((p[id] || 0) + 20, 100);
     return p;
   });
   loadProgress();
   renderModules(document.querySelector('.filter-btn.active')?.dataset.filter || 'all');
-  showToast(`Progress Modul ${id} diperbarui! 📚`);
+  showToast(`📚 Progress Modul ${id} diperbarui! +20%`);
 }
 
-function downloadFile(type, name) {
-  showToast(`⬇ Mengunduh ${type}: "${name.substring(0, 40)}..."`, 'success');
+// ===== DEFAULT FALLBACKS (overridden by ruang-belajar.html inline scripts) =====
+function downloadFile(type, name, moduleId) {
+  // This is overridden in HTML for real PDF/download behavior
+  showToast(`⬇️ Mengunduh ${type}: "${name.substring(0, 40)}..."`);
 }
 
-function playVideo(title) {
-  showToast(`▶ Membuka video: "${title.substring(0, 40)}..."`, 'success');
+function playVideo(title, moduleLabel) {
+  // This is overridden in HTML to open the YouTube modal
+  showToast(`▶ Membuka video: "${title.substring(0, 40)}...", 'success'`);
 }
 
-// Filter buttons
+// ===== FILTER BUTTONS =====
 document.querySelectorAll('.filter-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -158,6 +186,7 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
   });
 });
 
+// ===== INIT =====
 window.addEventListener('DOMContentLoaded', () => {
   loadProgress();
   renderModules();
@@ -165,6 +194,7 @@ window.addEventListener('DOMContentLoaded', () => {
   renderJobsheets();
 });
 
+// Expose global
 window.downloadFile = downloadFile;
 window.playVideo = playVideo;
 window.startModule = startModule;
