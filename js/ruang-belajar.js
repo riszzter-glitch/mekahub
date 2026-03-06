@@ -10,28 +10,23 @@ const MODULES = [
   { id: 5, num: 'Modul 05', icon: '🔄', title: 'Logika Interlock & Keselamatan', level: 'menengah', desc: 'Prinsip interlock untuk mencegah konflik output. Implementasi sistem Emergency Stop.', duration: '2x45 min', topics: 7, hasPdf: true, hasVideo: true, hasJobsheet: false },
   { id: 6, num: 'Modul 06', icon: '🏭', title: 'Kontrol Konveyor & Motor', level: 'menengah', desc: 'Program PLC untuk sistem konveyor belt: start/stop, forward/reverse, speed control.', duration: '3x45 min', topics: 9, hasPdf: true, hasVideo: true, hasJobsheet: true },
   { id: 7, num: 'Modul 07', icon: '📊', title: 'Function Block Diagram (FBD)', level: 'menengah', desc: 'Bahasa pemrograman alternatif PLC berbasis blok fungsi untuk logika yang lebih kompleks.', duration: '2x45 min', topics: 6, hasPdf: true, hasVideo: false, hasJobsheet: false },
-  { id: 8, num: 'Modul 08', icon: '🎨', title: 'Dasar Desain HMI', level: 'menengah', desc: 'Prinsip desain antarmuka operator: tata letak, pemilihan warna, dan ergonomi panel HMI.', duration: '2x45 min', topics: 8, hasPdf: true, hasVideo: true, hasJobsheet: false },
-  { id: 9, num: 'Modul 09', icon: '📡', title: 'Komunikasi PLC & Jaringan Industri', level: 'lanjut', desc: 'Protokol komunikasi Modbus, Profibus, EtherNet/IP untuk integrasi multi-device.', duration: '3x45 min', topics: 10, hasPdf: true, hasVideo: false, hasJobsheet: false },
-  { id: 10, num: 'Modul 10', icon: '🔬', title: 'SCADA & Monitoring Produksi', level: 'lanjut', desc: 'Implementasi sistem SCADA untuk supervisory control dan data acquisition skala pabrik.', duration: '4x45 min', topics: 12, hasPdf: true, hasVideo: true, hasJobsheet: true },
-  { id: 11, num: 'Modul 11', icon: '🤖', title: 'Integrasi Robot Arm & PLC', level: 'lanjut', desc: 'Sinkronisasi gerakan robot arm dengan logika PLC untuk aplikasi pick-and-place.', duration: '4x45 min', topics: 11, hasPdf: true, hasVideo: true, hasJobsheet: true },
-  { id: 12, num: 'Modul 12', icon: '🏆', title: 'Proyek Akhir: Smart Factory Mini', level: 'lanjut', desc: 'Integrasi semua kompetensi dalam proyek pabrik mini: konveyor + sensor + robot + HMI.', duration: '6x45 min', topics: 15, hasPdf: true, hasVideo: true, hasJobsheet: true },
+  { id: 8, num: 'Modul 08', icon: '🎨', title: 'Dasar Desain HMI', level: 'menengah', desc: 'Prinsip desain antarmuka operator: tata letak, pemilihan warna, dan ergonomi panel HMI.', duration: '2x45 min', topics: 8, hasPdf: true, hasVideo: false, hasJobsheet: false },
 ];
 
 const VIDEOS = [
-  { icon: '⚡', title: 'Pengenalan PLC: Apa itu PLC dan Bagaimana Cara Kerjanya?', duration: '12:34', module: 'Modul 01', views: '2.4K', ytId: 'YuGQcDpUs10' },
-  { icon: '🔗', title: 'Tutorial Ladder Diagram: Dari Nol Hingga Program Pertamamu', duration: '18:45', module: 'Modul 02', views: '3.1K', ytId: 'Tq0em5ScLHs' },
-  { icon: '🔌', title: 'Wiring PLC Step-by-Step: Pasang Sensor & Motor dengan Benar', duration: '22:10', module: 'Modul 03', views: '1.8K', ytId: 'Ps5bapqiTsA' },
-  { icon: '⏱️', title: 'Timer TON & Counter CTU: Kapan dan Bagaimana Menggunakannya', duration: '15:20', module: 'Modul 04', views: '2.2K', ytId: 'kH7xwCnNFkY' },
-  { icon: '🔄', title: 'Interlock System: Cara Membuat Program PLC yang Aman', duration: '20:05', module: 'Modul 05', views: '1.5K', ytId: 'qlLnM72sbkw' },
-  { icon: '🏭', title: 'Smart Factory Simulator: Tutorial Lengkap Meka-Lab', duration: '25:30', module: 'Meka-Lab', views: '4.7K', ytId: 'XwqcBgSLjWI' },
+  { icon: '⚡', title: 'Pengenalan PLC: Apa itu PLC dan Bagaimana Cara Kerjanya?', duration: '12:34', module: 'Modul 01', views: '2.4K', ytId: 'DU27_ece_50' },
+  { icon: '🔗', title: 'Tutorial Ladder Diagram: Dari Nol Hingga Program Pertamamu', duration: '18:45', module: 'Modul 02', views: '3.1K', ytId: '2tneV_ZeUSA' },
+  { icon: '🔌', title: 'Wiring PLC Step-by-Step: Pasang Sensor & Motor dengan Benar', duration: '22:10', module: 'Modul 03', views: '1.8K', ytId: 'dpnkcAXpZS0' },
+  { icon: '⏱️', title: 'Timer TON & Counter CTU: Kapan dan Bagaimana Menggunakannya', duration: '15:20', module: 'Modul 04', views: '2.2K', ytId: 'ZlSqC9QARvQ' },
+  { icon: '🔄', title: 'Interlock System: Cara Membuat Program PLC yang Aman', duration: '20:05', module: 'Modul 05', views: '1.5K', ytId: 'olAIftsvdjU' },
+  { icon: '📺', title: 'Apa itu DIFU dan DIFD instruksi differential up dan Differential down CX programmer', duration: '25:30', module: 'Meka-Lab', views: '4.7K', ytId: 'psJHH1Znn6Q' },
 ];
 
+
 const JOBSHEETS = [
-  { icon: '📄', title: 'JS-01: Wiring Dasar PLC Siemens S7-1200', size: '2.4 MB', module: 'Modul 03', id: '01' },
   { icon: '📄', title: 'JS-02: Program Kontrol Motor Tiga Fasa', size: '1.8 MB', module: 'Modul 06', id: '02' },
   { icon: '📄', title: 'JS-03: Implementasi Timer & Counter', size: '1.2 MB', module: 'Modul 04', id: '03' },
   { icon: '📄', title: 'JS-04: Sistem Interlock Emergency Stop', size: '2.1 MB', module: 'Modul 05', id: '04' },
-  { icon: '📄', title: 'JS-05: Desain Panel HMI Standar Industri', size: '3.5 MB', module: 'Modul 08', id: '05' },
   { icon: '📄', title: 'JS-06: Proyek Smart Factory Mini', size: '5.2 MB', module: 'Modul 12', id: '06' },
 ];
 
@@ -60,9 +55,6 @@ function loadProgress() {
     showBadgeNotif('🏅 Pembelajar Hebat – 4 Modul Selesai!');
   }
   if (completed >= 8 && prev < 8 && typeof showBadgeNotif === 'function') {
-    showBadgeNotif('⭐ Junior PLC Engineer – 8 Modul Selesai!');
-  }
-  if (completed >= 12 && prev < 12 && typeof showBadgeNotif === 'function') {
     showBadgeNotif('🏆 PLC Master – Semua Modul Selesai!');
   }
   Store.set('prevCompleted', completed);
@@ -92,9 +84,7 @@ function renderModules(filter = 'all') {
     if (mod.hasPdf) {
       actionBtns += `<button class="module-btn module-btn-pdf" onclick="downloadFile('PDF','${mod.title}',${mod.id})" title="Buka & Unduh PDF modul ini">📄 PDF</button>`;
     }
-    if (mod.hasVideo) {
-      actionBtns += `<button class="module-btn module-btn-video" onclick="playVideo('${mod.title}','${mod.num}')" title="Tonton video tutorial modul ini">▶ Video</button>`;
-    }
+
     if (!locked) {
       actionBtns += `<button class="module-btn" onclick="startModule(${mod.id})" style="background:rgba(57,255,20,0.1);color:var(--accent-green)" title="Tandai modul sebagai selesai">📖 Belajar</button>`;
     }
@@ -127,9 +117,22 @@ function renderModules(filter = 'all') {
 function renderVideos() {
   const grid = document.getElementById('videoGrid');
   grid.innerHTML = VIDEOS.map(v => `
-    <div class="video-card" onclick="playVideo('${v.title}','${v.module}')" title="Tonton: ${v.title}">
-      <div class="video-thumb">
-        <div class="video-thumb-icon">${v.icon}</div>
+    <div class="video-card" onclick="playVideo('${v.title}','${v.module}','${v.ytId}')" title="Tonton: ${v.title}" style="cursor:pointer">
+      <div class="video-thumb" style="position:relative;overflow:hidden;border-radius:10px 10px 0 0;aspect-ratio:16/9;background:#000;">
+        <img
+          src="https://img.youtube.com/vi/${v.ytId}/hqdefault.jpg"
+          alt="${v.title}"
+          style="width:100%;height:100%;object-fit:cover;display:block;"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+        />
+        <div style="display:none;position:absolute;inset:0;justify-content:center;align-items:center;background:#1a1a2e;font-size:2.5rem;">${v.icon}</div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.25);transition:background 0.2s;"
+             onmouseover="this.style.background='rgba(0,0,0,0.45)'"
+             onmouseout="this.style.background='rgba(0,0,0,0.25)'">
+          <div style="width:52px;height:52px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,0.5);">
+            <span style="color:#fff;font-size:1.3rem;margin-left:4px;">▶</span>
+          </div>
+        </div>
       </div>
       <div class="video-info">
         <h4>${v.title}</h4>
@@ -139,6 +142,7 @@ function renderVideos() {
     </div>
   `).join('');
 }
+
 
 // ===== RENDER JOBSHEETS =====
 function renderJobsheets() {
@@ -172,9 +176,9 @@ function downloadFile(type, name, moduleId) {
   showToast(`⬇️ Mengunduh ${type}: "${name.substring(0, 40)}..."`);
 }
 
-function playVideo(title, moduleLabel) {
+function playVideo(title, moduleLabel, ytId) {
   // This is overridden in HTML to open the YouTube modal
-  showToast(`▶ Membuka video: "${title.substring(0, 40)}...", 'success'`);
+  showToast(`▶ Membuka video: "${title.substring(0, 40)}..."`);
 }
 
 // ===== FILTER BUTTONS =====

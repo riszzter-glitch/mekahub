@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS-04: Sistem Interlock Emergency Stop – MekaHub</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            font-size: 14px;
+        }
+
+        .print-bar {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .print-bar span {
+            font-size: 13px;
+            opacity: .8;
+        }
+
+        .btn-print {
+            background: #39ff14;
+            color: #000;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .btn-print:hover {
+            background: #2ee010;
+        }
+
+        .page {
+            max-width: 820px;
+            margin: 32px auto 60px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, .10);
+            overflow: hidden;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #7f0000 0%, #1a1a2e 60%, #0f3460 100%);
+            color: #fff;
+            padding: 36px 40px 28px;
+        }
+
+        .page-header .badge {
+            display: inline-block;
+            background: rgba(255, 57, 57, .2);
+            border: 1px solid #ff3939;
+            color: #ff6b6b;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+
+        .page-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.35;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            opacity: .75;
+            font-size: 13px;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 18px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            opacity: .85;
+        }
+
+        .meta-item span.dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ff6b6b;
+            display: inline-block;
+        }
+
+        .page-body {
+            padding: 36px 40px;
+        }
+
+        h2 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f3460;
+            border-left: 4px solid #e53e3e;
+            padding-left: 12px;
+            margin: 28px 0 14px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        p {
+            line-height: 1.75;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        ol,
+        ul {
+            padding-left: 22px;
+            margin-bottom: 12px;
+        }
+
+        li {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #e8ecf0;
+        }
+
+        tr:nth-child(even) td {
+            background: #f8f9fb;
+        }
+
+        .box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+
+        .box.danger {
+            background: #fff5f5;
+            border-color: #feb2b2;
+        }
+
+        .box.warn {
+            background: #fffbeb;
+            border-color: #fde68a;
+        }
+
+        .box.info {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+        }
+
+        .box strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #065f46;
+        }
+
+        .box.danger strong {
+            color: #c53030;
+        }
+
+        .box.warn strong {
+            color: #92400e;
+        }
+
+        .box.info strong {
+            color: #1e40af;
+        }
+
+        .ladder {
+            font-family: 'Courier New', monospace;
+            background: #1e1e2e;
+            color: #a6e3a1;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 12.5px;
+            line-height: 1.7;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        .estop-badge {
+            display: inline-block;
+            background: #e53e3e;
+            color: #fff;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            margin-right: 6px;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e8ecf0;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .safety-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .sg {
+            background: #f8f9fb;
+            border-radius: 8px;
+            padding: 12px;
+            border-left: 4px solid #e53e3e;
+        }
+
+        .sg h4 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #c53030;
+            margin-bottom: 4px;
+        }
+
+        .sg p {
+            font-size: 12px;
+            color: #555;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .safety-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            .print-bar {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .page {
+                margin: 0;
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="print-bar">
+        <span>MekaHub – Lembar Kerja Industri</span>
+        <button class="btn-print" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+    </div>
+
+    <div class="page">
+        <div class="page-header">
+            <div class="badge">🔴 LEMBAR KERJA INDUSTRI – KESELAMATAN KERJA</div>
+            <h1>JS-04: Sistem Interlock &amp; Emergency Stop</h1>
+            <p>Modul 05 – Logika Interlock &amp; Keselamatan | MekaHub PLC Learning Platform</p>
+            <div class="meta-row">
+                <div class="meta-item"><span class="dot"></span> Kelas: XII TEI/TPM</div>
+                <div class="meta-item"><span class="dot"></span> Durasi: 2 × 45 menit</div>
+                <div class="meta-item"><span class="dot"></span> Level: Menengah</div>
+                <div class="meta-item"><span class="dot"></span> Versi: 1.0 (2025/2026)</div>
+            </div>
+        </div>
+
+        <div class="page-body">
+
+            <div class="box danger">
+                <strong>🔴 PERINGATAN KESELAMATAN UTAMA</strong>
+                Jobsheet ini membahas sistem Emergency Stop (E-Stop) yang merupakan komponen keselamatan kritis. Dalam
+                kondisi nyata, E-Stop WAJIB dikategori keselamatan (Safety Category per ISO 13849). Jangan memodifikasi
+                atau men-bypass sistem E-Stop di lingkungan industri nyata tanpa otorisasi!
+            </div>
+
+            <h2>A. Tujuan Pembelajaran</h2>
+            <ol>
+                <li>Memahami konsep interlock dalam sistem kontrol PLC untuk mencegah konflik aktuator.</li>
+                <li>Merancang dan memprogram sistem Emergency Stop (E-Stop) yang andal pada PLC S7-1200.</li>
+                <li>Mengimplementasikan Safety Relay dan kategori keselamatan (Safety Category 1–4).</li>
+                <li>Menguji fungsi E-Stop secara sistematis dan mendokumentasikan hasilnya.</li>
+            </ol>
+
+            <h2>B. Konsep Interlock</h2>
+            <p>Interlock adalah mekanisme program yang mencegah dua atau lebih aktuator yang saling bertentangan aktif
+                secara bersamaan. Contoh klasik adalah kontaktor Forward dan Reverse pada motor – jika keduanya aktif
+                sekaligus, terjadi hubung singkat fasa.</p>
+
+            <div class="safety-grid">
+                <div class="sg">
+                    <h4>Software Interlock</h4>
+                    <p>Implementasi melalui program Ladder (kontak NC dari output lawan dimasukkan dalam rung). Bisa
+                        gagal jika program bermasalah.</p>
+                </div>
+                <div class="sg">
+                    <h4>Hardware Interlock</h4>
+                    <p>Menggunakan kontak NC fisik dari kontaktor itu sendiri. Lebih andal karena independen dari
+                        program PLC.</p>
+                </div>
+                <div class="sg">
+                    <h4>Emergency Stop (E-Stop)</h4>
+                    <p>Tombol jamur merah NC yang memutus semua aktuator berbahaya secara instan. Wajib ada pada setiap
+                        mesin industri (IEC 60204-1).</p>
+                </div>
+                <div class="sg">
+                    <h4>Safety Category</h4>
+                    <p>Tingkatan keandalan sistem keselamatan: Cat.1 (sederhana) hingga Cat.4 (redundant, diagnostik
+                        penuh, PLe).</p>
+                </div>
+            </div>
+
+            <h2>C. Peta I/O (Address PLC)</h2>
+            <table>
+                <tr>
+                    <th>Tag</th>
+                    <th>Address</th>
+                    <th>Tipe</th>
+                    <th>Fungsi</th>
+                </tr>
+                <tr>
+                    <td>BTN_FWD</td>
+                    <td>I0.0</td>
+                    <td>Input DI</td>
+                    <td>Tombol Forward motor (NO)</td>
+                </tr>
+                <tr>
+                    <td>BTN_REV</td>
+                    <td>I0.1</td>
+                    <td>Input DI</td>
+                    <td>Tombol Reverse motor (NO)</td>
+                </tr>
+                <tr>
+                    <td>BTN_STOP</td>
+                    <td>I0.2</td>
+                    <td>Input DI</td>
+                    <td>Tombol Stop normal (NC)</td>
+                </tr>
+                <tr>
+                    <td>E_STOP</td>
+                    <td>I0.3</td>
+                    <td>Input DI</td>
+                    <td>Tombol Emergency Stop (NC – mustn't bypass!)</td>
+                </tr>
+                <tr>
+                    <td>SENSOR_LIMIT_L</td>
+                    <td>I0.4</td>
+                    <td>Input DI</td>
+                    <td>Limit switch kiri (mekanik interlock posisi)</td>
+                </tr>
+                <tr>
+                    <td>SENSOR_LIMIT_R</td>
+                    <td>I0.5</td>
+                    <td>Input DI</td>
+                    <td>Limit switch kanan (mekanik interlock posisi)</td>
+                </tr>
+                <tr>
+                    <td>KM_FWD</td>
+                    <td>Q0.0</td>
+                    <td>Output DO</td>
+                    <td>Kontaktor Forward</td>
+                </tr>
+                <tr>
+                    <td>KM_REV</td>
+                    <td>Q0.1</td>
+                    <td>Output DO</td>
+                    <td>Kontaktor Reverse</td>
+                </tr>
+                <tr>
+                    <td>LAMP_RUN</td>
+                    <td>Q0.2</td>
+                    <td>Output DO</td>
+                    <td>Lampu hijau – mesin berjalan</td>
+                </tr>
+                <tr>
+                    <td>LAMP_ESTOP</td>
+                    <td>Q0.3</td>
+                    <td>Output DO</td>
+                    <td>Lampu merah berkedip – E-Stop aktif</td>
+                </tr>
+                <tr>
+                    <td>BUZZER</td>
+                    <td>Q0.4</td>
+                    <td>Output DO</td>
+                    <td>Buzzer alarm saat E-Stop</td>
+                </tr>
+            </table>
+
+            <h2>D. Logika Safety: Aturan Utama</h2>
+            <div class="box danger">
+                <strong>🔴 Aturan Tak Dapat Dikompromikan</strong>
+                E-Stop (I0.3) harus ditempatkan di SETIAP rung yang mengontrol aktuator berbahaya. Jika I0.3 = FALSE
+                (trip), SEMUA output aktuator HARUS langsung mati, tanpa pengecualian.
+            </div>
+
+            <h2>E. Program Ladder Diagram</h2>
+            <p><strong>Network 1 – Kontrol Forward dengan interlock penuh:</strong></p>
+            <div class="ladder">
+                |--[I0.0 BTN_FWD]--+--[I0.2 STOP /NC]--[I0.3 ESTOP /NC]--[/Q0.1 KM_REV interlock]--[/I0.5 LimSwR]--|
+                (Q0.0 KM_FWD)
+                | [Q0.0 self-hold] |</div>
+
+            <p><strong>Network 2 – Kontrol Reverse dengan interlock penuh:</strong></p>
+            <div class="ladder">
+                |--[I0.1 BTN_REV]--+--[I0.2 STOP /NC]--[I0.3 ESTOP /NC]--[/Q0.0 KM_FWD interlock]--[/I0.4 LimSwL]--|
+                (Q0.1 KM_REV)
+                | [Q0.1 self-hold] |</div>
+
+            <p><strong>Network 3 – Lampu RUN (aktif saat mesin bergerak):</strong></p>
+            <div class="ladder">
+                |--[Q0.0]--+--[Q0.1]--| (Q0.2 LAMP_RUN)</div>
+
+            <p><strong>Network 4 – Alarm E-Stop (Lampu merah berkedip + Buzzer):</strong></p>
+            <div class="ladder">
+                |--[/I0.3 ESTOP]--| (Q0.3 LAMP_ESTOP + Q0.4 BUZZER)</div>
+
+            <div class="box warn">
+                <strong>⚠️ Perhatian Reset E-Stop</strong>
+                Setelah E-Stop dilepas (reset), sistem TIDAK boleh langsung kembali beroperasi sendiri (auto-restart).
+                Operator harus menekan tombol START ulang setelah memastikan area aman. Implementasikan flag SR latch
+                untuk kondisi ini.
+            </div>
+
+            <h2>F. Langkah Kerja</h2>
+            <ol>
+                <li>Buat project TIA Portal, konfigurasi I/O sesuai tabel bagian C.</li>
+                <li>Masukkan program Ladder pada OB1 (Network 1–4).</li>
+                <li>Simulasikan di PLC-SIM – perhatikan bahwa saat I0.3 dimatikan (E-Stop aktif), semua output Q
+                    langsung mati.</li>
+                <li>Uji interlock: aktifkan Q0.0 (FWD), lalu coba aktifkan Q0.1 (REV) → harus TIDAK bisa aktif
+                    bersamaan.</li>
+                <li>Uji Limit Switch: jalankan motor FWD → saat SENSOR_LIMIT_R aktif, motor harus berhenti otomatis.
+                </li>
+                <li>Uji E-Stop: saat motor berjalan, aktifkan E-Stop → motor berhenti, LAMP_ESTOP berkedip, BUZZER
+                    berbunyi.</li>
+                <li>Catat semua hasil pada tabel pengamatan.</li>
+                <li>Lepas E-Stop → amati: motor TIDAK boleh start otomatis.</li>
+            </ol>
+
+            <h2>G. Tabel Pengamatan</h2>
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>Kondisi Uji</th>
+                    <th>KM_FWD</th>
+                    <th>KM_REV</th>
+                    <th>LAMP_ESTOP</th>
+                    <th>BUZZER</th>
+                    <th>✓/✗</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Tekan BTN_FWD, E-Stop normal</td>
+                    <td>ON</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>FWD aktif + Tekan BTN_REV</td>
+                    <td>ON</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>FWD aktif + Aktifkan E-Stop</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td>ON (kedip)</td>
+                    <td>ON</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>E-Stop dilepas, tanpa tekan START</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>SENSOR_LIMIT_R aktif saat FWD</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Tekan STOP saat motor berjalan</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td>OFF</td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <h2>H. Pertanyaan Evaluasi</h2>
+            <ol>
+                <li>Jelaskan perbedaan antara software interlock dan hardware interlock, dan mengapa keduanya sebaiknya
+                    diterapkan bersamaan!</li>
+                <li>Mengapa tombol Emergency Stop menggunakan kontak NC (Normally Closed) bukan NO? Apa akibatnya jika
+                    kabel E-Stop putus?</li>
+                <li>Apa yang dimaksud dengan "Safety Category" menurut ISO 13849? Jelaskan perbedaan antara Category 1
+                    dan Category 3!</li>
+                <li>Mengapa auto-restart setelah E-Stop dilepas dianggap berbahaya? Bagaimana cara mencegahnya dalam
+                    program PLC?</li>
+                <li>Dalam sebuah lini produksi dengan 5 mesin, bagaimana cara mengimplementasikan E-Stop yang
+                    menghentikan semua mesin secara bersamaan?</li>
+            </ol>
+
+            <h2>I. Kriteria Penilaian</h2>
+            <table>
+                <tr>
+                    <th>No</th>
+                    <th>Aspek Penilaian</th>
+                    <th>Bobot</th>
+                    <th>Skor (0–100)</th>
+                    <th>Nilai</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Kebenaran program Ladder + interlock</td>
+                    <td>35%</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Keberhasilan uji E-Stop &amp; interlock</td>
+                    <td>30%</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Kelengkapan &amp; kebenaran tabel pengamatan</td>
+                    <td>20%</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Jawaban pertanyaan evaluasi</td>
+                    <td>15%</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><strong>TOTAL</strong></td>
+                    <td>100%</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+
+            <div class="footer-note">
+                <p>MekaHub – Platform Belajar PLC &amp; Otomasi Industri | JS-04 Rev.1.0</p>
+                <p>Nama Siswa: _________________________ | Kelas: ________ | Tanggal: ____________ | Nilai: ________</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

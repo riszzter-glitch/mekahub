@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modul 03: Wiring &amp; Instalasi Input/Output – MekaHub</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2e;
+            font-size: 14px;
+        }
+
+        .print-bar {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .print-bar span {
+            font-size: 13px;
+            opacity: .8;
+        }
+
+        .btn-print {
+            background: #39ff14;
+            color: #000;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .page {
+            max-width: 820px;
+            margin: 32px auto 60px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, .10);
+            overflow: hidden;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #1a3a2e 0%, #0d4a2e 60%, #1a5c20 100%);
+            color: #fff;
+            padding: 36px 40px 28px;
+        }
+
+        .page-header .badge {
+            display: inline-block;
+            background: rgba(57, 255, 20, .15);
+            border: 1px solid #39ff14;
+            color: #39ff14;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 14px;
+        }
+
+        .page-header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.35;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            opacity: .75;
+            font-size: 13px;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 18px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            opacity: .85;
+        }
+
+        .meta-item span.dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #39ff14;
+            display: inline-block;
+        }
+
+        .page-body {
+            padding: 36px 40px;
+        }
+
+        h2 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f3460;
+            border-left: 4px solid #39ff14;
+            padding-left: 12px;
+            margin: 28px 0 14px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        p {
+            line-height: 1.75;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        ol,
+        ul {
+            padding-left: 22px;
+            margin-bottom: 12px;
+        }
+
+        li {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+
+        th {
+            background: #0f3460;
+            color: #fff;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #e8ecf0;
+        }
+
+        tr:nth-child(even) td {
+            background: #f8f9fb;
+        }
+
+        .box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+
+        .box.danger {
+            background: #fff5f5;
+            border-color: #feb2b2;
+        }
+
+        .box.info {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+        }
+
+        .box.warn {
+            background: #fffbeb;
+            border-color: #fde68a;
+        }
+
+        .box strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #065f46;
+        }
+
+        .box.danger strong {
+            color: #c53030;
+        }
+
+        .box.info strong {
+            color: #1e40af;
+        }
+
+        .box.warn strong {
+            color: #92400e;
+        }
+
+        .wiring-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .wiring-card {
+            background: #f8f9fb;
+            border-radius: 8px;
+            padding: 14px;
+            border-left: 4px solid #39ff14;
+        }
+
+        .wiring-card h4 {
+            font-size: 12px;
+            font-weight: 700;
+            color: #0f3460;
+            margin-bottom: 6px;
+        }
+
+        .wiring-card p {
+            font-size: 12px;
+            color: #555;
+            margin: 0;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e8ecf0;
+            font-size: 12px;
+            color: #999;
+        }
+
+        @media (max-width: 600px) {
+            .wiring-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-body {
+                padding: 24px 20px;
+            }
+        }
+
+        @media print {
+            .print-bar {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            .page {
+                margin: 0;
+                box-shadow: none;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="print-bar">
+        <span>MekaHub – Dokumentasi Modul Ajar</span>
+        <button class="btn-print" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+    </div>
+    <div class="page">
+        <div class="page-header">
+            <div class="badge">🔌 MODUL 03 – DASAR</div>
+            <h1>Wiring &amp; Instalasi Input/Output PLC</h1>
+            <p>Teknik instalasi kabel sensor ke terminal input dan output ke aktuator secara aman dan benar sesuai
+                standar industri.</p>
+            <div class="meta-row">
+                <div class="meta-item"><span class="dot"></span> Kelas: XI/XII TEI &amp; TPM</div>
+                <div class="meta-item"><span class="dot"></span> Durasi: 3 × 45 menit</div>
+                <div class="meta-item"><span class="dot"></span> Level: Dasar</div>
+                <div class="meta-item"><span class="dot"></span> Topik: 7 Sub-Topik</div>
+            </div>
+        </div>
+
+        <div class="page-body">
+
+            <h2>1. Tujuan Pembelajaran</h2>
+            <ol>
+                <li>Mengidentifikasi jenis-jenis sensor input digital dan analog beserta karakteristiknya.</li>
+                <li>Memahami konfigurasi input Sinking (NPN) dan Sourcing (PNP) pada PLC.</li>
+                <li>Memasang kabel sensor proximity, push button, dan limit switch ke terminal input PLC.</li>
+                <li>Memahami jenis output relay dan transistor pada modul output PLC.</li>
+                <li>Memasang kabel aktuator (motor starter, lampu, solenoid) ke terminal output PLC.</li>
+                <li>Menerapkan standar pengkabelan: warna kabel, labeling, dan proteksi.</li>
+                <li>Melakukan pengujian dan verifikasi wiring menggunakan multimeter.</li>
+            </ol>
+
+            <div class="box danger">
+                <strong>🔴 KESELAMATAN KERJA UTAMA</strong>
+                SELALU matikan sumber tegangan (MCB ke OFF) sebelum memasang atau melepas kabel apapun pada sistem PLC.
+                Bekerja pada tegangan &gt;50V AC atau &gt;120V DC memerlukan APD lengkap (sarung tangan isolasi, sepatu
+                safety, kacamata). Jangan pernah menyentuh terminal output saat PLC dalam kondisi RUN.
+            </div>
+
+            <h2>2. Jenis-Jenis Input Digital</h2>
+            <div class="wiring-grid">
+                <div class="wiring-card">
+                    <h4>Push Button (Tombol Tekan)</h4>
+                    <p>Input mekanis paling sederhana. Tipe NO: kontak menutup saat ditekan. Tipe NC: kontak membuka
+                        saat ditekan. Contoh: tombol START/STOP, tombol emergensi.</p>
+                </div>
+                <div class="wiring-card">
+                    <h4>Limit Switch</h4>
+                    <p>Sensor posisi mekanis. Diaktifkan saat tuas atau roller fisik tersentuh objek. Digunakan untuk
+                        mendeteksi posisi akhir (end of travel) konveyor, pintu, atau aktuator pneumatik.</p>
+                </div>
+                <div class="wiring-card">
+                    <h4>Proximity Sensor (NPN/PNP)</h4>
+                    <p>Mendeteksi kehadiran objek logam tanpa kontak fisik. <strong>Induktif</strong>: hanya logam.
+                        <strong>Kapasitif</strong>: plastik, cairan, non-logam juga. Output: NPN (sinking) atau PNP
+                        (sourcing).</p>
+                </div>
+                <div class="wiring-card">
+                    <h4>Photoelectric Sensor</h4>
+                    <p>Mendeteksi benda menggunakan cahaya inframerah. Tipe Thru-beam: lebih akurat, butuh pemancar dan
+                        penerima terpisah. Tipe Reflective: lebih praktis, satu unit. Digunakan di konveyor sorting.</p>
+                </div>
+            </div>
+
+            <h2>3. Konfigurasi NPN vs PNP (Sinking vs Sourcing)</h2>
+            <p>Ini adalah konsep yang paling sering membingungkan pemula. Perbedaan utama ada pada polaritas sinyal ke
+                terminal input PLC:</p>
+            <table>
+                <tr>
+                    <th>Aspek</th>
+                    <th>Sensor NPN (Sinking)</th>
+                    <th>Sensor PNP (Sourcing)</th>
+                </tr>
+                <tr>
+                    <td>Sinyal Output Sensor</td>
+                    <td>Menarik arus ke GND (0V) saat aktif</td>
+                    <td>Mendorong arus dari +24V saat aktif</td>
+                </tr>
+                <tr>
+                    <td>Input PLC yang cocok</td>
+                    <td>Input Sourcing (common = +24V)</td>
+                    <td>Input Sinking (common = 0V/GND)</td>
+                </tr>
+                <tr>
+                    <td>Tegangan terminal input saat aktif</td>
+                    <td>~0V (ditarik ke GND oleh sensor)</td>
+                    <td>~24V (didorong oleh sensor)</td>
+                </tr>
+                <tr>
+                    <td>Prevalensi</td>
+                    <td>Umum di Asia (Jepang, Korea)</td>
+                    <td>Umum di Eropa &amp; Amerika</td>
+                </tr>
+                <tr>
+                    <td>Siemens S7-1200</td>
+                    <td>Butuh modul input khusus NPN / jumper</td>
+                    <td>Default input S7-1200 = PNP (sourcing)</td>
+                </tr>
+            </table>
+            <div class="box warn">
+                <strong>⚠️ Hati-Hati Perbedaan NPN/PNP</strong>
+                Memasang sensor NPN ke input yang dikonfigurasi PNP (atau sebaliknya) bisa menyebabkan input "selalu ON"
+                atau tidak pernah aktif. Selalu periksa datasheet sensor dan manual modul input PLC sebelum wiring.
+            </div>
+
+            <h2>4. Standar Wiring dan Pengkabelan</h2>
+            <table>
+                <tr>
+                    <th>Jenis Kabel</th>
+                    <th>Kode Warna Standar (IEC)</th>
+                    <th>Penggunaan</th>
+                </tr>
+                <tr>
+                    <td>Fasa (L)</td>
+                    <td>Coklat / Hitam / Abu-abu</td>
+                    <td>Tegangan AC dari sumber daya</td>
+                </tr>
+                <tr>
+                    <td>Netral (N)</td>
+                    <td>Biru</td>
+                    <td>Netral AC</td>
+                </tr>
+                <tr>
+                    <td>Grounding (PE)</td>
+                    <td>Hijau-Kuning</td>
+                    <td>Grounding proteksi, WAJIB</td>
+                </tr>
+                <tr>
+                    <td>DC +24V</td>
+                    <td>Merah</td>
+                    <td>Suplai positif sensor/aktuator DC</td>
+                </tr>
+                <tr>
+                    <td>DC 0V/GND</td>
+                    <td>Hitam / Biru gelap</td>
+                    <td>Ground negatif DC</td>
+                </tr>
+                <tr>
+                    <td>Sinyal Input</td>
+                    <td>Oranye / Kuning</td>
+                    <td>Kabel sinyal dari sensor ke terminal input</td>
+                </tr>
+                <tr>
+                    <td>Sinyal Output</td>
+                    <td>Ungu / Putih</td>
+                    <td>Kabel sinyal dari terminal output ke aktuator</td>
+                </tr>
+            </table>
+            <ul>
+                <li>Gunakan kabel flexible (serabut) untuk wiring panel, bukan kabel solid (NYA).</li>
+                <li>Pasang <strong>ferrule (end sleeve)</strong> di setiap ujung kabel yang dimasukkan ke terminal.</li>
+                <li>Gunakan <strong>cable duct (trunking)</strong> untuk merapikan kabel dan memudahkan perawatan.</li>
+                <li>Beri <strong>label/marking</strong> pada setiap kabel sesuai nomor terminal (contoh: I0.0, Q0.1,
+                    dll.).</li>
+                <li>Pisahkan kabel daya (220V) dari kabel sinyal untuk mengurangi noise elektromagnetik.</li>
+            </ul>
+
+            <h2>5. Jenis Output PLC dan Beban yang Cocok</h2>
+            <div class="wiring-grid">
+                <div class="wiring-card">
+                    <h4>Output Relay (R)</h4>
+                    <p>Berupa kontak relay mekanis. Bisa mengendalikan AC maupun DC. Arus maks ~2A per output. Cocok
+                        untuk: lampu, solenoid, dan motor kecil. Kekurangan: lambat (10ms), kontak aus.</p>
+                </div>
+                <div class="wiring-card">
+                    <h4>Output Transistor (T)</h4>
+                    <p>Solid-state, hanya untuk beban DC. Sangat cepat (&lt;1ms). Cocok untuk: sinyal ke inverter,
+                        output frekuensi tinggi (pulse train), indikator LED. Maks ~0.5A per kanal.</p>
+                </div>
+            </div>
+            <div class="box info">
+                <strong>💡 Menggunakan Relay Eksternal (Interposing Relay)</strong>
+                Untuk beban induktif besar (kontaktor motor 3 fasa), selalu gunakan relay eksternal (interposing relay)
+                sebagai buffer antara output PLC dan kontaktor. Ini melindungi modul output PLC dari lonjakan arus
+                induktif dan memperpanjang umur modul.
+            </div>
+
+            <h2>6. Prosedur Pengujian Wiring (Commissioning)</h2>
+            <ol>
+                <li><strong>Visual Check</strong>: Periksa semua terminal sudah terpasang kuat, tidak ada kabel longgar
+                    atau bersentuhan.</li>
+                <li><strong>Continuity Test</strong>: Gunakan multimeter (mode Ω atau beeper) untuk verifikasi jalur
+                    kabel sambung benar.</li>
+                <li><strong>Insulation Test</strong>: Pastikan tidak ada short circuit (hubungan singkat) antara kabel
+                    daya dan sinyal.</li>
+                <li><strong>Power ON Test (Low Voltage)</strong>: Nyalakan tegangan DC 24V saja, periksa lampu indikator
+                    status input/output di CPU.</li>
+                <li><strong>Force Output Test</strong>: Gunakan fitur "Force" di TIA Portal untuk mengaktifkan output
+                    secara manual dan verifikasi aktuator bergerak sesuai wiring diagram.</li>
+                <li><strong>Input Verification</strong>: Aktifkan setiap sensor secara manual dan verifikasi LED input
+                    di modul PLC menyala sesuai.</li>
+            </ol>
+
+            <h2>7. Keselamatan Listrik dalam Wiring PLC</h2>
+            <ul>
+                <li>Selalu pasang <strong>MCB (Miniature Circuit Breaker)</strong> pada setiap jalur daya sebelum masuk
+                    PLC.</li>
+                <li>Grounding sistem harus terhubung ke PE bus panel, lalu ke electroda ground gedung.</li>
+                <li>Gunakan <strong>surge protector (SPD)</strong> pada jaringan listrik untuk melindungi PLC dari
+                    lonjakan tegangan petir.</li>
+                <li>Kabel sinyal analog (0–10V, 4–20mA) harus menggunakan kabel shielded (berpelindung) untuk
+                    menghindari noise.</li>
+                <li>Shield (pelindung) kabel analog dihubungkan ke ground hanya di satu sisi (biasanya sisi panel PLC).
+                </li>
+            </ul>
+
+            <div class="footer-note">
+                <p>MekaHub – Platform Belajar PLC &amp; Otomasi Industri | Modul 03 Rev.1.0</p>
+                <p>Nama Siswa: _________________________ | Kelas: ________ | Tanggal: ____________</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

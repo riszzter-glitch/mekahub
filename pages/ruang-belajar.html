@@ -366,7 +366,6 @@
                 <button class="filter-btn active" data-filter="all">Semua</button>
                 <button class="filter-btn" data-filter="dasar">Dasar</button>
                 <button class="filter-btn" data-filter="menengah">Menengah</button>
-                <button class="filter-btn" data-filter="lanjut">Lanjutan</button>
             </div>
         </div>
         <div class="modules-grid" id="modulesGrid">
@@ -460,33 +459,29 @@
         // ===== PDF & VIDEO MODAL LOGIC =====
         // YouTube video IDs mapped to module titles (replace with real IDs when available)
         const YOUTUBE_IDS = {
-            'Pengenalan PLC & Sistem Otomasi': 'YuGQcDpUs10',
-            'Dasar Pemrograman Ladder Diagram': 'Tq0em5ScLHs',
-            'Wiring & Instalasi Input/Output': 'Ps5bapqiTsA',
-            'Timer dan Counter PLC': 'kH7xwCnNFkY',
-            'Logika Interlock & Keselamatan': 'qlLnM72sbkw',
-            'Smart Factory Simulator: Tutorial Lengkap Meka-Lab': 'XwqcBgSLjWI',
-            'Pengenalan PLC: Apa itu PLC dan Bagaimana Cara Kerjanya?': 'YuGQcDpUs10',
-            'Tutorial Ladder Diagram: Dari Nol Hingga Program Pertamamu': 'Tq0em5ScLHs',
-            'Wiring PLC Step-by-Step: Pasang Sensor & Motor dengan Benar': 'Ps5bapqiTsA',
-            'Timer TON & Counter CTU: Kapan dan Bagaimana Menggunakannya': 'kH7xwCnNFkY',
-            'Interlock System: Cara Membuat Program PLC yang Aman': 'qlLnM72sbkw',
+            'Pengenalan PLC & Sistem Otomasi': 'DU27_ece_50',
+            'Dasar Pemrograman Ladder Diagram': '2tneV_ZeUSA',
+            'Wiring & Instalasi Input/Output': 'dpnkcAXpZS0',
+            'Timer dan Counter PLC': 'ZlSqC9QARvQ',
+            'Logika Interlock & Keselamatan': 'olAIftsvdjU',
+            'Apa itu DIFU dan DIFD instruksi differential up dan Differential down CX programmer': 'psJHH1Znn6Q',
+            'Pengenalan PLC: Apa itu PLC dan Bagaimana Cara Kerjanya?': 'DU27_ece_50',
+            'Tutorial Ladder Diagram: Dari Nol Hingga Program Pertamamu': '2tneV_ZeUSA',
+            'Wiring PLC Step-by-Step: Pasang Sensor & Motor dengan Benar': 'dpnkcAXpZS0',
+            'Timer TON & Counter CTU: Kapan dan Bagaimana Menggunakannya': 'ZlSqC9QARvQ',
+            'Interlock System: Cara Membuat Program PLC yang Aman': 'olAIftsvdjU',
         };
 
-        // PDF file path map (ganti dengan path file PDF asli bila tersedia)
+        // Modul HTML path map – menampilkan dokumen materi lengkap sesuai modul ajar
         const PDF_PATHS = {
-            1: '../assets/pdf/modul-01.pdf',
-            2: '../assets/pdf/modul-02.pdf',
-            3: '../assets/pdf/modul-03.pdf',
-            4: '../assets/pdf/modul-04.pdf',
-            5: '../assets/pdf/modul-05.pdf',
-            6: '../assets/pdf/modul-06.pdf',
-            7: '../assets/pdf/modul-07.pdf',
-            8: '../assets/pdf/modul-08.pdf',
-            9: '../assets/pdf/modul-09.pdf',
-            10: '../assets/pdf/modul-10.pdf',
-            11: '../assets/pdf/modul-11.pdf',
-            12: '../assets/pdf/modul-12.pdf',
+            1: '../assets/modul/modul-01.html',
+            2: '../assets/modul/modul-02.html',
+            3: '../assets/modul/modul-03.html',
+            4: '../assets/modul/modul-04.html',
+            5: '../assets/modul/modul-05.html',
+            6: '../assets/modul/modul-06.html',
+            7: '../assets/modul/modul-07.html',
+            8: '../assets/modul/modul-08.html',
         };
 
         function openPdfModal(moduleId, moduleTitle) {
@@ -495,17 +490,17 @@
             const dlLink = document.getElementById('pdfDownloadLink');
             const title = document.getElementById('pdfModalTitle');
 
-            const pdfPath = PDF_PATHS[moduleId] || '../assets/pdf/modul-01.pdf';
+            const modulePath = PDF_PATHS[moduleId] || '../assets/modul/modul-01.html';
             title.textContent = '📄 ' + moduleTitle;
-            dlLink.href = pdfPath;
-            dlLink.download = 'MekaHub-' + moduleTitle.replace(/[^a-zA-Z0-9]/g, '_') + '.pdf';
 
-            // Use object tag for better native fallback if PDF cannot load (like file:// protocols)
-            wrapper.innerHTML = `
-                <object data="${pdfPath}" type="application/pdf" width="100%" height="100%" style="min-height:500px">
-                    ${pdfFallbackHTML(pdfPath, moduleTitle)}
-                </object>
-            `;
+            // Update download link to open in new tab
+            dlLink.href = modulePath;
+            dlLink.removeAttribute('download');
+            dlLink.target = '_blank';
+            dlLink.textContent = '↗️ Buka di Tab Baru';
+
+            // Load the module HTML in an iframe
+            wrapper.innerHTML = `<iframe src="${modulePath}" style="width:100%;min-height:500px;height:100%;border:none;display:block;"></iframe>`;
             modal.showModal();
         }
 
@@ -513,8 +508,8 @@
             return `<div class="pdf-placeholder">
                 <div class="pdf-ico">📄</div>
                 <h4>${title}</h4>
-                <p>Browser kamu tidak dapat menampilkan PDF secara inline.<br>Silakan klik tombol Unduh di bawah.</p>
-                <a href="${path}" download class="btn btn-primary" style="display:inline-flex;margin-top:8px">⬇️ Unduh PDF</a>
+                <p>Konten modul tidak dapat dimuat.<br>Silakan klik tombol di bawah untuk membuka.</p>
+                <a href="${path}" target="_blank" class="btn btn-primary" style="display:inline-flex;margin-top:8px">↗️ Buka Modul</a>
             </div>`;
         }
 
@@ -523,21 +518,18 @@
             document.getElementById('pdfEmbedWrapper').innerHTML = '';
         }
 
-        function openVideoModal(videoTitle, moduleLabel) {
+        function openVideoModal(videoTitle, moduleLabel, ytIdDirect) {
             const modal = document.getElementById('videoModal');
             const iframe = document.getElementById('videoIframe');
             const titleEl = document.getElementById('videoModalTitle');
             const descEl = document.getElementById('videoModalDesc');
 
-            const ytId = YOUTUBE_IDS[videoTitle];
+            // Prioritas: ytId langsung dari kartu, fallback ke lookup judul
+            const ytId = ytIdDirect || YOUTUBE_IDS[videoTitle] || 'DU27_ece_50';
             titleEl.textContent = '🎬 ' + videoTitle;
             descEl.textContent = moduleLabel ? moduleLabel + ' — Video Panduan Pembelajaran PLC' : '';
 
-            if (ytId) {
-                iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0`;
-            } else {
-                iframe.src = 'https://www.youtube.com/embed/YuGQcDpUs10?rel=0';
-            }
+            iframe.src = `https://www.youtube.com/embed/${ytId}?autoplay=1&rel=0&modestbranding=1`;
             modal.showModal();
         }
 
@@ -546,23 +538,33 @@
             document.getElementById('videoIframe').src = '';
         }
 
+        // Jobsheet HTML pages map (konten lengkap sesuai judul)
+        const JOBSHEET_PAGES = {
+            '02': '../assets/jobsheets/js-02.html',
+            '03': '../assets/jobsheets/js-03.html',
+            '04': '../assets/jobsheets/js-04.html',
+            '06': '../assets/jobsheets/js-06.html',
+        };
+
         // Override downloadFile and playVideo from ruang-belajar.js
         window.downloadFile = function (type, name, moduleId) {
             if (type === 'PDF') {
                 openPdfModal(moduleId || 1, name);
             } else {
-                // Jobsheet download
-                const path = `../assets/pdf/jobsheet-${(moduleId || '01').toString().padStart(2, '0')}.pdf`;
-                const a = document.createElement('a');
-                a.href = path;
-                a.download = 'Jobsheet-' + name.replace(/[^a-zA-Z0-9]/g, '_') + '.pdf';
-                a.click();
-                showToast('⬇️ Mengunduh: "' + name.substring(0, 40) + '..."');
+                // Jobsheet – buka halaman HTML yang berisi konten lengkap
+                const id = (moduleId || '01').toString().padStart(2, '0');
+                const jsPage = JOBSHEET_PAGES[id];
+                if (jsPage) {
+                    window.open(jsPage, '_blank');
+                    showToast('📄 Membuka Jobsheet: "' + name.substring(0, 40) + '"');
+                } else {
+                    showToast('⚠️ Jobsheet belum tersedia untuk dokumen ini.');
+                }
             }
         };
 
-        window.playVideo = function (title, moduleLabel) {
-            openVideoModal(title, moduleLabel);
+        window.playVideo = function (title, moduleLabel, ytId) {
+            openVideoModal(title, moduleLabel, ytId);
         };
 
         window.closePdfModal = closePdfModal;
