@@ -44,7 +44,7 @@ KEAHLIANMU:
 - Wiring PLC, pneumatik
 
 FITUR PLATFORM (berikan link yang tepat):
-- Pintu Masuk / Asesmen Bakat: ${_base}asesmen.html (tes RIASEC & GATB 25 soal)
+- Asesmen Awal / Asesmen Bakat: ${_base}asesmen.html (tes RIASEC & GATB 25 soal)
 - Ruang Belajar: ${_base}ruang-belajar.html (modul PDF, video tutorial, jobsheet)
 - Meka-Lab: ${_base}meka-lab.html (simulasi Smart Factory virtual, editor Ladder Diagram)
 - Pusat Uji: ${_base}pusat-uji.html (ujian bertingkat Easy/Medium/Hard, badge kompetensi)
@@ -423,7 +423,7 @@ function formatAIResponse(text) {
         .replace(/\b(Meka-Lab|meka-lab)\b/gi, `<a href="${_base}meka-lab.html" class="msg-link">Meka-Lab</a>`)
         .replace(/\b(Ruang Belajar|ruang belajar)\b/gi, `<a href="${_base}ruang-belajar.html" class="msg-link">Ruang Belajar</a>`)
         .replace(/\b(Pusat Uji|pusat uji)\b/gi, `<a href="${_base}pusat-uji.html" class="msg-link">Pusat Uji</a>`)
-        .replace(/\b(Asesmen Bakat|Pintu Masuk)\b/gi, `<a href="${_base}asesmen.html" class="msg-link">Pintu Masuk</a>`);
+        .replace(/\b(Asesmen Bakat|Pintu Masuk|Asesmen Awal)\b/gi, `<a href="${_base}asesmen.html" class="msg-link">Asesmen Awal</a>`);
 
     return formatted;
 }
@@ -448,7 +448,7 @@ function getFallbackResponse(text) {
     // Navigasi Platform
     if (text.includes('simulasi') || text.includes('lab')) return `🏭 Simulasi Smart Factory ada di <a href="${_base}meka-lab.html" class="msg-link">Meka-Lab</a>. Di sana kamu bisa uji logika PLC-mu di pabrik virtual!`;
     if (text.includes('ujian') || text.includes('uji')) return `📝 Asesmen kompetensi PLC bertingkat (Easy → Medium → Hard) tersedia di <a href="${_base}pusat-uji.html" class="msg-link">Pusat Uji</a>.`;
-    if (text.includes('asesmen') || text.includes('bakat')) return `🧠 Temukan jalur belajar PLC yang sesuai denganmu lewat tes RIASEC & GATB di <a href="${_base}asesmen.html" class="msg-link">Pintu Masuk</a>.`;
+    if (text.includes('asesmen') || text.includes('bakat')) return `🧠 Temukan jalur belajar PLC yang sesuai denganmu lewat tes RIASEC & GATB di <a href="${_base}asesmen.html" class="msg-link">Asesmen Awal</a>.`;
     if (text.includes('modul') || text.includes('materi') || text.includes('belajar')) return `📚 Semua modul PDF, video tutorial wiring, dan jobsheet standar industri ada di <a href="${_base}ruang-belajar.html" class="msg-link">Ruang Belajar</a>.`;
     if (text.includes('badge')) return `🏆 Badge kompetensi bisa didapatkan di <a href="${_base}pusat-uji.html" class="msg-link">Pusat Uji</a> setelah lulus setiap level ujian.`;
 
