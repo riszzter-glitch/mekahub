@@ -203,8 +203,8 @@ function executePLCLogic() {
 function drawFactory() {
     if (!fCtx) return;
     const W = fCanvas.width, H = fCanvas.height;
-    // Fill white background
-    fCtx.fillStyle = '#ffffff';
+    // Fill yellow background
+    fCtx.fillStyle = '#ffff00';
     fCtx.fillRect(0, 0, W, H);
 
     // Background grid
